@@ -8,7 +8,9 @@ import com.capstone.MovieService.exception.UserAlreadyExistsException;
 import com.capstone.MovieService.exception.UserNotFoundException;
 import com.capstone.MovieService.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.capstone.MovieService.proxy.Userproxy;
 
 import java.util.List;
 
@@ -16,10 +18,11 @@ import java.util.List;
 public class MovieServiceImpl implements IMovieService {
 
     private MovieRepository movieRepository;
-
+    private Userproxy userproxy;
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, Userproxy userproxy) {
         this.movieRepository = movieRepository;
+        this.userproxy = userproxy;
     }
 
     @Override
@@ -27,7 +30,13 @@ public class MovieServiceImpl implements IMovieService {
         if(movieRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
-        return movieRepository.save(user);
+        User savedUser= movieRepository.save(user);
+
+        if(!savedUser.getUserId().isEmpty()){
+            ResponseEntity r=userproxy.register(user);
+            System.out.println(r.getBody());
+        }
+        return savedUser;
     }
 
     @Override

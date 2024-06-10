@@ -20,11 +20,11 @@ public class AppConfig {
         return builder.routes()
                 .route(p -> p
                         .path("/api/v1/**")
-                        .uri("lb://UserAuthenticationService")) // use the name of the application in the uri
+                        .uri("lb://user-authentication-service")) // use the name of the application in the uri
 //                        .uri("http://customer-authentication-service:8087"))
                 .route(p->p
                         .path("/api/v2/**")
-                        .uri("lb://MovieService"))
+                        .uri("lb://user-movie-service"))
 //                        .uri("http://customer-product-service:8089"))
                 .build();
     }

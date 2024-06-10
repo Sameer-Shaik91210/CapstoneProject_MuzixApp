@@ -6,31 +6,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-<<<<<<< HEAD
-        <module name="MovieService" />
-=======
         <module name="EurekaServer" />
         <module name="UserAuthenticationService" />
-        <module name="API-Gateway" />
->>>>>>> user
+        <module name="MovieService" />
+        <module name="SpringCloudAPIGateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="API-GAteway" target="17" />
+      <module name="API-Gateway" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-<<<<<<< HEAD
-      <module name="MovieService" options="-parameters" />
-      <module name="MuzixAppBackend" options="" />
-=======
-      <module name="API-GAteway" options="-parameters" />
       <module name="API-Gateway" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
-      <module name="MuzixAppBackend" options="" />
+      <module name="MovieService" options="-parameters" />
+      <module name="SpringCloudAPIGateway" options="-parameters" />
       <module name="UserAuthenticationService" options="-parameters" />
->>>>>>> user
     </option>
   </component>
 </project>

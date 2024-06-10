@@ -34,6 +34,7 @@ public class JwtFilter extends GenericFilterBean {
         //extract the claims
         Claims claims = Jwts.parser().setSigningKey("secretkey").parseClaimsJws(token).getBody();
         // set the claims in the request attribute and pass it to the next handler
+        System.out.println("Filtered Claims: "+claims);
         request.setAttribute("claims",claims);
 
         //pass the claims in the request, anyone wanting to use it
