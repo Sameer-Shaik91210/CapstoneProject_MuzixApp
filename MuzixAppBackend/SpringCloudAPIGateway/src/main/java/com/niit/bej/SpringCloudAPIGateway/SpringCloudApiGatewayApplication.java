@@ -1,15 +1,16 @@
-package com.example.API_Gateway;
+package com.niit.bej.SpringCloudAPIGateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+
 @SpringBootApplication
 @EnableEurekaClient
-public class ApiGatewayApplication {
+public class SpringCloudApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiGatewayApplication.class, args);
+		SpringApplication.run(SpringCloudApiGatewayApplication.class, args);
 	}
 
 }

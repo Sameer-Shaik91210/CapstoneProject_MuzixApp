@@ -51,7 +51,7 @@
 
 	<modules>
 		<module>EurekaServer</module>
-		<module>API-Gateway</module>
+		<module>SpringCloudAPIGateway</module>
 		<module>UserAuthenticationService</module>
 		<module>MovieService</module>
 	</modules>

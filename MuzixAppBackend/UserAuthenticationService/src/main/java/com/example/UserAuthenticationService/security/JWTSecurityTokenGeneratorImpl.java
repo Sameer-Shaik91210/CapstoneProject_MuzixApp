@@ -20,7 +20,7 @@ public class JWTSecurityTokenGeneratorImpl implements SecurityTokenGenerator {
     }
 
     public String generateToken(Map<String, Object> claims, String subject) {
-        String jwtToken = Jwts.builder().setIssuer("MovieApp")
+        String jwtToken = Jwts.builder().setIssuer("UserAuthenticationService")
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date())
