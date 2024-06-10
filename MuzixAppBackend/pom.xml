@@ -50,7 +50,10 @@
 	</dependencies>
 
 	<modules>
-       <module>MovieService</module>
+		<module>EurekaServer</module>
+		<module>API-Gateway</module>
+		<module>UserAuthenticationService</module>
+		<module>MovieService</module>
 	</modules>
 
 	<build>

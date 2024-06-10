@@ -5,7 +5,15 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/MuzixAppBackend/pom.xml" />
+        <option value="$PROJECT_DIR$/MuzixAppBackend/UserAuthenticationService/pom.xml" />
+        <option value="$PROJECT_DIR$/MuzixAppBackend/EurekaServer/pom.xml" />
+        <option value="$PROJECT_DIR$/MuzixAppBackend/API-GAteway/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/MuzixAppBackend/API-GAteway/pom.xml" />
+      </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
