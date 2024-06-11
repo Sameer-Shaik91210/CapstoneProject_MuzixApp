@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CapstoneProject.iml" filepath="$PROJECT_DIR$/.idea/CapstoneProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MuzixAppBackend/MuzixAppBackend.iml" filepath="$PROJECT_DIR$/MuzixAppBackend/MuzixAppBackend.iml" />
     </modules>
   </component>
 </project>
