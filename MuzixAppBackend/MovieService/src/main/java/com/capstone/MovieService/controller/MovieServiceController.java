@@ -41,8 +41,10 @@ public class MovieServiceController {
 
     @PostMapping("user/movie")
     public ResponseEntity<?> saveFavouriteMovie(@RequestBody FavouriteMovie movie, HttpServletRequest request) throws UserNotFoundException, MovieAlreadyExistsException {
+
     Claims claims=(Claims)request.getAttribute("claims");
     String userId=claims.getSubject();
+
       responseEntity=new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie,userId),HttpStatus.OK);
         return responseEntity;
     }
