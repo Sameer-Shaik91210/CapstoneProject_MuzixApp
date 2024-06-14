@@ -1,0 +1,13 @@
+#header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+}
+#icons {
+  position: absolute;
+  right: 10px;
+}
+#icons > * {
+  margin-right: 15px;
+}

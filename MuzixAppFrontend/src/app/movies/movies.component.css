@@ -1,0 +1,17 @@
+/* src/app/home/home.component.css */
+.movies-container {
+  padding: 16px;
+}
+
+mat-card {
+  max-width: 400px;
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+mat-card-content {
+  font-size: 14px;
+}
