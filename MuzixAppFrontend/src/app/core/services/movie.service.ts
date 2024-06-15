@@ -7,8 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
-  private apiUrl = 'http://your-backend-api.com/api';
+  // private apiUrl = 'http://your-backend-api.com/api';
   private apiKey = 'YOUR_TMDB_API_KEY';
+  apiUrl: string = "http://localhost:8081/api/v1/";
+
 
   constructor(private http: HttpClient) {}
 

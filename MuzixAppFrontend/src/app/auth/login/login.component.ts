@@ -1,32 +1,25 @@
+// src/app/login/login.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { RouterService } from '../../core/services/router.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  email: string = '';
+  password: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-    });
-  }
+  constructor(private authService: AuthService,private routerService:RouterService) { }
 
   onLogin() {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(() => {
-        this.router.navigate(['/home']);
-      });
+    if (!this.authService.login(this.email, this.password)) {
+      alert('Login failed');
+    }else{
+      console.log("Check 1 in login");
+      this.routerService.toDashboard();
     }
   }
 }
