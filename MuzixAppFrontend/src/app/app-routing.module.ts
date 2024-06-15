@@ -11,7 +11,7 @@ import { HeaderSidenavComponent } from './header-sidenav/header-sidenav.componen
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  {path:'dashboard',component: HeaderSidenavComponent},
+  { path:'dashboard',component: HeaderSidenavComponent},
   { path: 'login', component: LoginComponent },
   { path: 'favorite-movies', component: FavouritesComponent },
   { path: 'recommended-movies', component: RecommendedComponent },
