@@ -8,11 +8,16 @@ import { Observable } from 'rxjs';
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   // private apiUrl = 'http://your-backend-api.com/api';
-  private apiKey = 'YOUR_TMDB_API_KEY';
   apiUrl: string = "http://localhost:8081/api/v1/";
-
+  private apiKey = '8f957d42784bfc13de55c1682ca27ba5';  // Your TMDB API Key
+  private baseUrl = 'https://api.themoviedb.org/3';
 
   constructor(private http: HttpClient) {}
+
+  getMovies(): Observable<any> {
+    const url = `${this.baseUrl}/movie/popular?api_key=${this.apiKey}`;
+    return this.http.get(url);
+  }
 
   getRecommendedMovies(): Observable<any> {
     return this.http.get(
