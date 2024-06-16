@@ -25,4 +25,9 @@ export class FavouritesComponent implements OnInit{
 
 
 
+  ngOnInit(): void {
+    this.tmdbService.getMovies().subscribe((data: any) => {
+      this.movies = data.results;
+    });
+  }
 }
