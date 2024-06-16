@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'favorite-movies', component: FavouritesComponent },
   { path: 'recommended-movies', component: RecommendedComponent },
-  { path: 'movies', component: PlayComponent },
+  { path: 'movie/:id', component: PlayComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

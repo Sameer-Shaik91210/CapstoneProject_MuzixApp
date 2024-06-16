@@ -21,8 +21,30 @@ export class MovieService {
       `${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`
     );
   }
+  getMovieDetails(movieId: number): Observable<any> {
+    return this.http.get(`${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`);
+  }
 
-  getRecommendedMovies(): Observable<any> {
+
+  getMovieVideos(movieId: number): Observable<any> {
+    return this.http.get(
+      `${this.tmdbUrl}/movie/${movieId}/videos?api_key=${this.apiKey}`
+    );
+  }
+
+  getMovieCast(movieId: number): Observable<any> {
+    return this.http.get(
+      `${this.tmdbUrl}/movie/${movieId}/credits?api_key=${this.apiKey}`
+    );
+  }
+
+  getRecommendedMovies(movieId: number): Observable<any> {
+    return this.http.get(
+      `${this.tmdbUrl}/movie/${movieId}/recommendations?api_key=${this.apiKey}`
+    );
+  }
+
+  getPopularMovies(): Observable<any> {
     return this.http.get(
       `${this.tmdbUrl}/movie/popular?api_key=${this.apiKey}`
     );
@@ -46,9 +68,6 @@ export class MovieService {
     );
   }
 
-  getMovieDetails(movieId: number): Observable<any> {
-    return this.http.get(
-      `${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`
-    );
-  }
+  
+  
 }
