@@ -8,11 +8,19 @@ import { Observable } from 'rxjs';
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   // private apiUrl = 'http://your-backend-api.com/api';
-  private apiKey = 'YOUR_TMDB_API_KEY';
+  private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
   apiUrl: string = "http://localhost:8081/api/v1/";
 
 
   constructor(private http: HttpClient) {}
+
+
+  //get Random Movies
+  getRandomMovies():Observable<any>{
+    return this.http.get(
+      `${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`
+    );
+  }
 
   getRecommendedMovies(): Observable<any> {
     return this.http.get(

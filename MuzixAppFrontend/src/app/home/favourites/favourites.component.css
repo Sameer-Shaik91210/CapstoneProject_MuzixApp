@@ -1,0 +1,44 @@
+.movies-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+  }
+  
+  .movies-grid {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  
+  .movie-tile {
+    flex: 0 0 auto;
+    width: 200px; /* Adjust the width as per your requirement */
+    margin-right: 10px;
+  }
+  
+  .movie-card {
+    width: 100%;
+  }
+  
+  mat-card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  mat-card-content {
+    padding: 10px;
+  }
+  
+  mat-card h3 {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  mat-card p {
+    font-size: 14px;
+    margin: 0;
+    max-height: 50px; /* Adjust the height to limit the text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
