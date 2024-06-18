@@ -30,6 +30,10 @@ import { MovieService } from './core/services/movie.service';
 import { PlayComponent } from './movie/play/play.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { SearchComponent } from './search/search/search.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,8 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
     PlayComponent,
     PageNotFoundComponent,
     RegisterComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +67,11 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
     MatRippleModule,
     LayoutModule,
     MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSnackBarModule,
   ],
   providers: [
     provideAnimationsAsync()

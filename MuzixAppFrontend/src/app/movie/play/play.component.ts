@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieService } from '../../core/services/movie.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-play',
@@ -15,15 +16,18 @@ export class PlayComponent implements OnInit {
   cast: any[] = [];
   recommendedMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500';
+  isFavorite: boolean = false; // New property to track favorite status
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private movieService: MovieService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private snackBar: MatSnackBar // Inject MatSnackBar service
   ) {}
 
   ngOnInit(): void {
+   
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -48,6 +52,7 @@ export class PlayComponent implements OnInit {
         (response) => {
           this.movieDetails = response;
           console.log(this.movieDetails);
+          this.checkFavoriteStatus(); // Check the favorite status when details are fetched
         },
         (error) => {
           console.error('Error fetching movie details:', error);
@@ -107,6 +112,33 @@ export class PlayComponent implements OnInit {
   }
 
   goToMovie(movieId: number): void {
+    this.isFavorite=false;
     this.router.navigate(['/movie', movieId]);
+  }
+
+  // New methods for handling favorite status
+  toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+    this.showFavoriteSnackBar();
+    // Perform any additional logic or service calls here
+    if (this.isFavorite) {
+      console.log(`Marked movie ${this.movieId} as favorite`);
+    } else {
+      console.log(`Unmarked movie ${this.movieId} as favorite`);
+    }
+  }
+
+  checkFavoriteStatus(): void {
+    // Add logic to check if the movie is already marked as favorite
+    // For example, check local storage or a service call
+    // this.isFavorite = ...;
+  }
+
+  showFavoriteSnackBar(): void {
+    const message = this.isFavorite ? 'Marked as favorite' : 'Unmarked as favorite';
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: ['snackbar-primary']
+    });
   }
 }

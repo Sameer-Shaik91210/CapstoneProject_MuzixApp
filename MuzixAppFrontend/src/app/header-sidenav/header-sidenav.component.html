@@ -9,26 +9,23 @@
       <a mat-list-item href="/favorite-movies" (click)="drawer.toggle()">Favorite Movies</a>
       <a mat-list-item href="/recommended-movies">Recommended Movies</a>
       <a mat-list-item href="/movies">Movies</a>
-
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <!-- @if (isHandset$ | async) { -->
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
+      <div class="toolbar-content">
+        <button *ngIf="!(isHandset$ | async)" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-      <!-- } -->
-      <!-- <app-home [loggedIn]=isLoggedIn></app-home> -->
-    </mat-toolbar>
-    <!-- <router-outlet (activate)="onLoggedIn($event)"></router-outlet> -->
-     <!-- <app-home></app-home> -->
-     <router-outlet></router-outlet>
+        <span class="title">Muzix</span>
+        <span class="spacer"></span>
+        
+        <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
 
-    <!-- Add Content Here -->
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -65,9 +65,10 @@ export class MovieService {
 
   searchMovies(query: string): Observable<any> {
     return this.http.get(
-      `${this.tmdbUrl}/search/movie?api_key=${this.apiKey}&query=${query}`
+      `${this.tmdbUrl}/search/movie?api_key=${this.apiKey}&query=${query}&include_adult=false`
     );
   }
+  // search/movie?query=Tom&include_adult=false&language=en-US&page=1%27&api_key=
 
   
   

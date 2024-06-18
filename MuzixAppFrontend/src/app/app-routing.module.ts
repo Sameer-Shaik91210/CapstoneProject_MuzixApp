@@ -8,6 +8,7 @@ import { RecommendedComponent } from './home/recommended/recommended.component';
 import { PlayComponent } from './movie/play/play.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { SearchComponent } from './search/search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'home', component: HomeComponent },
+      {path:"search",component:SearchComponent},
       { path: 'favorite-movies', component: FavouritesComponent },
       { path: 'recommended-movies', component: RecommendedComponent },
       { path: 'movie/:id', component: PlayComponent },

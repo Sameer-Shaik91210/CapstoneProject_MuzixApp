@@ -1,1 +1,21 @@
-<p>search works!</p>
+<div class="search-container">
+  <mat-form-field appearance="outline" class="search-box">
+    <input matInput placeholder="Search" [(ngModel)]="searchQuery">
+  </mat-form-field>
+  <button mat-icon-button (click)="fetchSearchResults()">
+    <mat-icon>search</mat-icon>
+  </button>
+</div>
+
+<div *ngIf="searchResults.length > 0">
+  <h2>Search Results for "{{ searchQuery }}"</h2>
+  <ul>
+    <li *ngFor="let result of searchResults">
+      <h3>{{ result.title }}</h3>
+      <p>id: {{ result.id }}</p>
+    </li>
+  </ul>
+</div>
+<div *ngIf="searchResults.length === 0">
+  <p>No results found for "{{ searchQuery }}"</p>
+</div>

@@ -1,36 +1,40 @@
 <div class="play-container">
-    <div class="movie-player" *ngIf="videoUrl">
-      <iframe [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
-    </div>
-  
-    <div class="movie-details" *ngIf="movieDetails">
+  <div class="movie-player" *ngIf="videoUrl">
+    <iframe [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <div class="movie-details" *ngIf="movieDetails">
+    <div class="details-header">
       <h2>{{ movieDetails.title }}</h2>
-      <p>{{ movieDetails.overview }}</p>
+      <button class="favorite-btn" (click)="toggleFavorite()">
+        <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
     </div>
-  
-    <div class="movie-cast">
-      <h3>Cast</h3>
-      <div class="cast-container">
-        <div *ngFor="let member of cast" class="cast-member">
-          <img [src]="imgPrefix + member.profile_path" alt="{{ member.name }}">
-          <p>{{ member.name }}</p>
-          <p>{{ member.character }}</p>
-        </div>
-      </div>
-    </div>
-  
-    <div class="recommended-movies">
-      <h3>Recommended Movies</h3>
-      <div class="recommended-container">
-        <div *ngFor="let movie of recommendedMovies" class="recommended-movie">
-          <mat-card class="movie-card" (click)="goToMovie(movie.id)">
-            <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
-            <mat-card-content>
-              <h3>{{ movie.title }}</h3>
-            </mat-card-content>
-          </mat-card>
-        </div>
+    <p>{{ movieDetails.overview }}</p>
+  </div>
+
+  <div class="movie-cast">
+    <h3>Cast</h3>
+    <div class="cast-container">
+      <div *ngFor="let member of cast" class="cast-member">
+        <img [src]="imgPrefix + member.profile_path" alt="{{ member.name }}">
+        <p>{{ member.name }}</p>
+        <p>{{ member.character }}</p>
       </div>
     </div>
   </div>
-  
+
+  <div class="recommended-movies">
+    <h3>Recommended Movies</h3>
+    <div class="recommended-container">
+      <div *ngFor="let movie of recommendedMovies" class="recommended-movie">
+        <mat-card class="movie-card" (click)="goToMovie(movie.id)">
+          <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+          <mat-card-content>
+            <h3>{{ movie.title }}</h3>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

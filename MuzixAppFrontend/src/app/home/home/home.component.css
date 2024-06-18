@@ -1,0 +1,38 @@
+.hero-section {
+    background-size: cover;
+    background-position: center;
+    padding: 60px 20px;
+    color: white;
+    text-align: center;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .hero-content h1,p{
+    font-size: 40px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #673ab7;
+    padding: 10px;
+    text-align: left;
+    border-radius: 10px;
+    opacity: 0.8;
+  }
+  .hero-content p{
+   font-size: 20px;
+
+  }
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+  }
+  
+  .search-box {
+    width: 300px;
+    margin-right: 10px;
+  }
+  

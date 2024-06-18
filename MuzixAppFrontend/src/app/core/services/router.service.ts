@@ -22,4 +22,8 @@ export class RouterService {
   toLogin() {
     this.routerService.navigate(["/login"]);
   }
+
+  toSearchComponent(){
+    this.routerService.navigate(['search']);
+  }
 }
