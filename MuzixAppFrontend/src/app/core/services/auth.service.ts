@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RouterService } from './router.service';
 import { Login } from '../../models/login';
@@ -11,11 +11,12 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:9000/api/v1/';
   private registerUrl = 'http://localhost:9000/api/v2/register';
+
   constructor(private http: HttpClient, private routerService: RouterService) {}
 
-  login(user: Login): Observable<any> {
+  login(user: any): Observable<any> {
     //return this.http.post<any>(`${this.apiUrl}login`, { userId, password });
-    return this.http.post(`${this.apiUrl}login`,user);
+    return this.http.post<any>(`${this.apiUrl}login`,user, { responseType: 'text' as 'json' });
   }
   register(user: any): Observable<any> {
     return this.http.post<any>(this.registerUrl, user);

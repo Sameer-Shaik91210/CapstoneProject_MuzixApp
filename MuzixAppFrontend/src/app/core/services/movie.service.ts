@@ -14,15 +14,15 @@ export class MovieService {
   apiUrl: string = "http://localhost:9000/api/v2/";
 
 
-    constructor(private http: HttpClient, private tokenService: TokenService) { }
+    constructor(private http: HttpClient, private tokenService: TokenService, private authService: AuthService) { }
 
     private createHeaders(): HttpHeaders {
-      const token = this.tokenService.getToken(); // Fetch the token dynamically
+      const token = this.authService.getToken(); // Fetch the token dynamically
       return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
     }
     getFavouriteMovie(): Observable<any> {
       const headers = this.createHeaders();
-      return this.http.get<any>('http://localhost:9000/api/v2/user/movies', { headers });
+      return this.http.get<any>('http://localhost:9000/api/v2/user/movies');
     }
   //get Random Movies
   getRandomMovies():Observable<any>{

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TokenService {
-  private readonly TOKEN_KEY = 'secretkey'; // Replace with your desired key setToken
+  private readonly TOKEN_KEY = 'my_token_key'; // Replace with your desired key setToken
   setToken(token: string) {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
