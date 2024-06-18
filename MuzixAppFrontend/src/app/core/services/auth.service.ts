@@ -1,42 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { RouterService } from './router.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://your-backend-api.com/api';
+  private apiUrl = 'http://localhost:9000/api/v1/';
 
-  constructor(private http: HttpClient,private routerService:RouterService) {}
+  constructor(private http: HttpClient, private routerService: RouterService) {}
 
-  isLoggedIn: boolean = false;
-
-  
-
-  login(email: string, password: string): boolean {
-    // Replace this with real authentication logic
-    if (email === 'user@example.com' && password === 'password') {
-      this.isLoggedIn = true;
-      console.log("Check 2 in Auth");
-
-      return true;
-    }else{
-     this.isLoggedIn=false;
-     return false;
-    }
+  login(userId: string, password: string): Observable<any> {
+    //return this.http.post<any>(`${this.apiUrl}login`, { userId, password });
+    return this.http.post<any>(this.apiUrl+"login",{userId, password});
   }
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}register`, user);
+  }
+  saveToken(token: string) {
+    localStorage.setItem('jwtToken', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('jwtToken');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
   logout() {
-    this.isLoggedIn = false;
-  }
-
-  register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
-  }
-
-  login1(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    localStorage.removeItem('jwtToken');
   }
 }

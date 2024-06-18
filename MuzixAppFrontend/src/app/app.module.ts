@@ -28,6 +28,7 @@ import { FavouritesComponent } from './home/favourites/favourites.component';
 import { RecommendedComponent } from './home/recommended/recommended.component';
 import { MovieService } from './core/services/movie.service';
 import { PlayComponent } from './movie/play/play.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PlayComponent } from './movie/play/play.component';
     RecommendedComponent,
     PlayComponent,
     PageNotFoundComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

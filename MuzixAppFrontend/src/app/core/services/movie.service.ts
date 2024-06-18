@@ -52,7 +52,7 @@ export class MovieService {
   }
 
   getFavouriteMovies(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/favourites`);
+    return this.http.get(`${this.apiUrl+"user/movies"}/favourites`);
   }
 
   addFavouriteMovie(movieId: number): Observable<any> {
