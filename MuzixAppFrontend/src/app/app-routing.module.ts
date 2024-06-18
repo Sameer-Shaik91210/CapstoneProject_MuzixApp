@@ -7,6 +7,7 @@ import { FavouritesComponent } from './home/favourites/favourites.component';
 import { RecommendedComponent } from './home/recommended/recommended.component';
 import { PlayComponent } from './movie/play/play.component';
 import { HeaderSidenavComponent } from './header-sidenav/header-sidenav.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'favorite-movies', component: FavouritesComponent },
   { path: 'recommended-movies', component: RecommendedComponent },
   { path: 'movies', component: PlayComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

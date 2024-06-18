@@ -14,7 +14,7 @@
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit">Login</button>
       </form>
-      <div *ngIf="!authService.isLoggedIn()">
+      <div >
         <p>Not registered yet? <a routerLink="/register">Register</a></p>
         <p><a routerLink="/login">Home</a></p>
       </div>

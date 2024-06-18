@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v2")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/v2/")
 public class MovieServiceController {
 
     private IMovieService movieService;
@@ -33,19 +34,31 @@ public class MovieServiceController {
     //register
     @PostMapping("register")
     public ResponseEntity<?> registerUser(@RequestBody User user) throws UserAlreadyExistsException {
-        responseEntity=new ResponseEntity<User>(movieService.registerUser(user), HttpStatus.CREATED);
+        try {
+            responseEntity = new ResponseEntity<User>(movieService.registerUser(user), HttpStatus.CREATED);
+        }
+        catch(UserAlreadyExistsException e)
+        {
+            throw new UserAlreadyExistsException();
+        }
         return responseEntity;
     }
 
     //save favourite movie
 
     @PostMapping("user/movie")
-    public ResponseEntity<?> saveFavouriteMovie(@RequestBody FavouriteMovie movie, HttpServletRequest request) throws UserNotFoundException, MovieAlreadyExistsException {
-
-    Claims claims=(Claims)request.getAttribute("claims");
-    String userId=claims.getSubject();
-
-      responseEntity=new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie,userId),HttpStatus.OK);
+    public ResponseEntity<?> saveFavouriteMovie(@RequestBody FavouriteMovie movie, HttpServletRequest request)
+            throws UserNotFoundException, MovieAlreadyExistsException {
+        try {
+            Claims claims = (Claims) request.getAttribute("claims");
+            String userId = claims.getSubject();
+            responseEntity = new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie, userId), HttpStatus.OK);
+        }
+        catch (UserNotFoundException | MovieAlreadyExistsException e) {
+            throw new MovieAlreadyExistsException();
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return responseEntity;
     }
 
@@ -53,9 +66,16 @@ public class MovieServiceController {
 
     @DeleteMapping("user/movie/{movieId}")
     public ResponseEntity<?> deleteAMovieFromUserFavouriteMovieList(@PathVariable String movieId,HttpServletRequest request) throws UserNotFoundException, MovieNotFoundEXception {
-       Claims claims=(Claims)request.getAttribute("claims");
-       String userId=claims.getSubject();
-        responseEntity=new ResponseEntity<User>(movieService.deleteAMovieFromUserFavouriteMovieList(movieId,userId),HttpStatus.OK);
+        try {
+            Claims claims = (Claims) request.getAttribute("claims");
+            String userId = claims.getSubject();
+            responseEntity = new ResponseEntity<User>(movieService.deleteAMovieFromUserFavouriteMovieList(movieId, userId), HttpStatus.OK);
+        }
+        catch (UserNotFoundException | MovieNotFoundEXception e) {
+            throw new MovieNotFoundEXception();
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return responseEntity;
     }
 
@@ -63,10 +83,14 @@ public class MovieServiceController {
 
     @GetMapping("user/movies")
     public ResponseEntity<?> getAllFavouriteMovies(HttpServletRequest request) throws Exception {
-        Claims claims=(Claims)request.getAttribute("claims");
-        String userId=claims.getSubject();
-
-       responseEntity=new ResponseEntity<List<FavouriteMovie>>(movieService.getAllFavouriteMoviesOfUser(userId),HttpStatus.OK);
-        return responseEntity;
+        try {
+            Claims claims = (Claims) request.getAttribute("claims");
+            String userId = claims.getSubject();
+            return new ResponseEntity<List<FavouriteMovie>>(movieService.getAllFavouriteMoviesOfUser(userId), HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,12 +11,19 @@ export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   // private apiUrl = 'http://your-backend-api.com/api';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
-  apiUrl: string = "http://localhost:8087/api/v2/";
+  apiUrl: string = "http://localhost:9000/api/v2/";
 
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private tokenService: TokenService) { }
 
-
+    private createHeaders(): HttpHeaders {
+      const token = this.tokenService.getToken(); // Fetch the token dynamically
+      return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    }
+    getFavouriteMovie(): Observable<any> {
+      const headers = this.createHeaders();
+      return this.http.get<any>('http://localhost:9000/api/v2/user/movies', { headers });
+    }
   //get Random Movies
   getRandomMovies():Observable<any>{
     return this.http.get(
@@ -51,4 +60,6 @@ export class MovieService {
       `${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`
     );
   }
+
+
 }
