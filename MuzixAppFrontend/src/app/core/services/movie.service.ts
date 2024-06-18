@@ -9,7 +9,7 @@ export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   // private apiUrl = 'http://your-backend-api.com/api';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
-  apiUrl: string = "http://localhost:8081/api/v1/";
+  apiUrl: string = "http://localhost:8087/api/v2/";
 
 
   constructor(private http: HttpClient) {}
@@ -29,7 +29,7 @@ export class MovieService {
   }
 
   getFavouriteMovies(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/favourites`);
+    return this.http.get(`${this.apiUrl+"user/movies"}/favourites`);
   }
 
   addFavouriteMovie(movieId: number): Observable<any> {

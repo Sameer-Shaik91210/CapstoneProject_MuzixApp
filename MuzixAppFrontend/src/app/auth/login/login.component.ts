@@ -9,17 +9,19 @@ import { RouterService } from '../../core/services/router.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
+  userId: string = '';
   password: string = '';
-
-  constructor(private authService: AuthService,private routerService:RouterService) { }
-
+  constructor(public authService: AuthService, private routerService: RouterService) {}
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
   onLogin() {
-    if (!this.authService.login(this.email, this.password)) {
+    if (!this.authService.login(this.userId, this.password)) {
       alert('Login failed');
     }else{
       console.log("Check 1 in login");
       this.routerService.toDashboard();
     }
   }
+
 }
