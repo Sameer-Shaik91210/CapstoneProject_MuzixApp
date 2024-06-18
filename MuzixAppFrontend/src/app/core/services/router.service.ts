@@ -9,9 +9,14 @@ export class RouterService {
   constructor(private routerService: Router) { }
 
   toDashboard() {
-    console.log("Check 3 in RouterService");
 
     this.routerService.navigate(["/dashboard"]);
+  }
+
+  toHome(){
+    console.log("Check 3 in RouterService");
+
+    this.routerService.navigate(["/home"]);
   }
 
   toLogin() {

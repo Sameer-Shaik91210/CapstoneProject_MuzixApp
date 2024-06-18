@@ -20,7 +20,7 @@ export class LoginComponent {
       alert('Login failed');
     }else{
       console.log("Check 1 in login");
-      this.routerService.toDashboard();
+      this.routerService.toHome();
     }
   }
 

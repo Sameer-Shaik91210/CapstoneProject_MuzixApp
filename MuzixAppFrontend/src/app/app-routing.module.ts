@@ -6,21 +6,28 @@ import { LoginComponent } from './auth/login/login.component';
 import { FavouritesComponent } from './home/favourites/favourites.component';
 import { RecommendedComponent } from './home/recommended/recommended.component';
 import { PlayComponent } from './movie/play/play.component';
-import { HeaderSidenavComponent } from './header-sidenav/header-sidenav.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path:'dashboard',component: HeaderSidenavComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'favorite-movies', component: FavouritesComponent },
-  { path: 'recommended-movies', component: RecommendedComponent },
-  { path: 'movie/:id', component: PlayComponent },
+  { path: 'register', component: RegisterComponent },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'favorite-movies', component: FavouritesComponent },
+      { path: 'recommended-movies', component: RecommendedComponent },
+      { path: 'movie/:id', component: PlayComponent },
+    ],
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
