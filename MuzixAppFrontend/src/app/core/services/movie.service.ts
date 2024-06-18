@@ -10,7 +10,7 @@ export class MovieService {
   // private apiUrl = 'http://your-backend-api.com/api';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
   apiUrl: string = "http://localhost:8081/api/v1/";
-  private apiKey = '8f957d42784bfc13de55c1682ca27ba5';  // Your TMDB API Key
+  // private apiKey = '8f957d42784bfc13de55c1682ca27ba5';  // Your TMDB API Key
   private baseUrl = 'https://api.themoviedb.org/3';
 
   constructor(private http: HttpClient) {}

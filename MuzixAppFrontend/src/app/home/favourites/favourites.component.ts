@@ -18,6 +18,7 @@ export class FavouritesComponent implements OnInit{
       this.randomMovies = response.results;
       console.log("Random Movies:",this.randomMovies);
     })
+
   }
   goToMovie(movieId: number): void {
     this.router.navigate(['/movie', movieId]);
@@ -25,9 +26,5 @@ export class FavouritesComponent implements OnInit{
 
 
 
-  ngOnInit(): void {
-    this.tmdbService.getMovies().subscribe((data: any) => {
-      this.movies = data.results;
-    });
-  }
+
 }
