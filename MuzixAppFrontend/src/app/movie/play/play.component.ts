@@ -51,7 +51,7 @@ export class PlayComponent implements OnInit {
       this.movieService.getMovieDetails(this.movieId).subscribe(
         (response) => {
           this.movieDetails = response;
-          console.log(this.movieDetails);
+          console.log("fetchedMovieDetails",this.movieDetails);
           this.checkFavoriteStatus(); // Check the favorite status when details are fetched
         },
         (error) => {
@@ -67,7 +67,10 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getMovieVideos(this.movieId).subscribe(
         (response) => {
+          console.log("Fetched Movie Trailers data",response);
+
           if (response.results && response.results.length > 0) {
+            console.log("Fetched Movie Trailer",response.results[0]);
             const videoKey = response.results[0].key;
             this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${videoKey}`);
           }
@@ -85,7 +88,15 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getMovieCast(this.movieId).subscribe(
         (response) => {
-          this.cast = response.cast;
+          console.log("Crew", response);
+          this.cast = response.crew.filter((cast: any) => cast.profile_path != null);
+        
+        
+        console.log("this crew",this.cast);
+
+          // data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) => 
+          //   movie.poster_path && movie.title && movie.overview && movie.release_date
+          // );
         },
         (error) => {
           console.error('Error fetching movie cast:', error);
@@ -100,7 +111,8 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getRecommendedMovies(this.movieId).subscribe(
         (response) => {
-          this.recommendedMovies = response.results;
+          console.log("Fetched Recommended Movies ",response.results);
+          this.recommendedMovies = response.results.filter((movie:any)=>(movie.poster_path!=null));
         },
         (error) => {
           console.error('Error fetching recommended movies:', error);

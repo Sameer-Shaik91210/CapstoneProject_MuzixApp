@@ -1,21 +1,10 @@
-<div class="search-container">
-  <mat-form-field appearance="outline" class="search-box">
-    <input matInput placeholder="Search" [(ngModel)]="searchQuery">
-  </mat-form-field>
-  <button mat-icon-button (click)="fetchSearchResults()">
-    <mat-icon>search</mat-icon>
-  </button>
-</div>
-
-<div *ngIf="searchResults.length > 0">
-  <h2>Search Results for "{{ searchQuery }}"</h2>
-  <ul>
-    <li *ngFor="let result of searchResults">
-      <h3>{{ result.title }}</h3>
-      <p>id: {{ result.id }}</p>
-    </li>
-  </ul>
-</div>
-<div *ngIf="searchResults.length === 0">
-  <p>No results found for "{{ searchQuery }}"</p>
+<div class="movie-container" *ngFor="let movie of searchResults">
+  <div class="movie-card" (click)="goToMovie(movie.id)">
+    <img [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}" class="movie-poster">
+    <div class="movie-details">
+      <h2 class="movie-title">{{ movie.title }}</h2>
+      <p class="movie-overview">{{ movie.overview }}</p>
+      <p class="movie-year">Release Year: {{ movie.release_date | date: 'yyyy' }}</p>
+    </div>
+  </div>
 </div>

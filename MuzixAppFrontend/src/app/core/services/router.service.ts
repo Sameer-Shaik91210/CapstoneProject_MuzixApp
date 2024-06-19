@@ -24,6 +24,6 @@ export class RouterService {
   }
 
   toSearchComponent(){
-    this.routerService.navigate(['search']);
+    this.routerService.navigate(['/search']);
   }
 }
