@@ -37,8 +37,8 @@ export class LoginComponent {
         console.log(data);
 
         // Save the token
-        this.authService.saveToken(data.token);
-        console.log(data.token);
+        console.log(data,"from login component");
+        this.authService.saveToken(data);
 
         // Navigate to the dashboard
         this.router.navigate(['/dashboard']); // Adjust the route as needed

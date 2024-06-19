@@ -28,7 +28,9 @@ export class AuthService {
   getFavoriteMovies(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}favorite-movies`);
   }
-  saveToken(token: string) {
+  saveToken(token: any) {
+    console.log("data",token)
+    // console.log(token?.token,"token")
     localStorage.setItem('jwtToken', token);
   }
 
