@@ -111,7 +111,7 @@
   }
 
   .snackbar-primary {
-    background-color: #673ab7; /* primary color from deeppurple-amber theme */
+    background: #673ab7 !important; /* primary color from deeppurple-amber theme */
     color: #fff;
   }
   

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieService } from '../../core/services/movie.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-play',
@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./play.component.css']
 })
 export class PlayComponent implements OnInit {
+
+
   movieId: number | undefined;
   movieDetails: any;
   videoUrl: SafeResourceUrl | undefined;
@@ -17,6 +19,10 @@ export class PlayComponent implements OnInit {
   recommendedMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500';
   isFavorite: boolean = false; // New property to track favorite status
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -27,15 +33,21 @@ export class PlayComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-   
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
+      const isFavouriteParam=params.get('isFavorite');
+      console.log("inside paramMap ",isFavouriteParam);
       if (id) {
         this.movieId = +id;
-        this.loadMovieData();
       } else {
         console.error('Movie ID is null');
       }
+
+      if (isFavouriteParam) {
+        this.isFavorite = isFavouriteParam === 'true'?true:false; // Convert string to boolean
+      }
+      this.loadMovieData();
+
     });
   }
 
@@ -51,6 +63,8 @@ export class PlayComponent implements OnInit {
       this.movieService.getMovieDetails(this.movieId).subscribe(
         (response) => {
           this.movieDetails = response;
+          console.log("In fetch movies method",this.isFavorite);
+          this.movieDetails.isFavorite=this.isFavorite;
           console.log("fetchedMovieDetails",this.movieDetails);
           this.checkFavoriteStatus(); // Check the favorite status when details are fetched
         },
@@ -67,10 +81,10 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getMovieVideos(this.movieId).subscribe(
         (response) => {
-          console.log("Fetched Movie Trailers data",response);
+          // console.log("Fetched Movie Trailers data",response);
 
           if (response.results && response.results.length > 0) {
-            console.log("Fetched Movie Trailer",response.results[0]);
+            // console.log("Fetched Movie Trailer",response.results[0]);
             const videoKey = response.results[0].key;
             this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${videoKey}`);
           }
@@ -88,11 +102,11 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getMovieCast(this.movieId).subscribe(
         (response) => {
-          console.log("Crew", response);
+          // console.log("Crew", response);
           this.cast = response.crew.filter((cast: any) => cast.profile_path != null);
         
         
-        console.log("this crew",this.cast);
+        // console.log("this crew",this.cast);
 
           // data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) => 
           //   movie.poster_path && movie.title && movie.overview && movie.release_date
@@ -111,7 +125,7 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getRecommendedMovies(this.movieId).subscribe(
         (response) => {
-          console.log("Fetched Recommended Movies ",response.results);
+          // console.log("Fetched Recommended Movies ",response.results);
           this.recommendedMovies = response.results.filter((movie:any)=>(movie.poster_path!=null));
         },
         (error) => {
@@ -134,9 +148,12 @@ export class PlayComponent implements OnInit {
     this.showFavoriteSnackBar();
     // Perform any additional logic or service calls here
     if (this.isFavorite) {
-      console.log(`Marked movie ${this.movieId} as favorite`);
+      // console.log("The Movie is ",this.movieDetails);
+      this.movieService.addFavouriteMovie(this.movieDetails);
+      // console.log(`Marked movie ${this.movieId} as favorite`);
     } else {
-      console.log(`Unmarked movie ${this.movieId} as favorite`);
+      this.movieService.removeFavouriteMovie(this.movieId);
+      // console.log(`Unmarked movie ${this.movieId} as favorite`);
     }
   }
 
@@ -150,7 +167,9 @@ export class PlayComponent implements OnInit {
     const message = this.isFavorite ? 'Marked as favorite' : 'Unmarked as favorite';
     this.snackBar.open(message, 'Close', {
       duration: 3000,
-      panelClass: ['snackbar-primary']
+      panelClass:['snackbar-primary'],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition
     });
   }
 }

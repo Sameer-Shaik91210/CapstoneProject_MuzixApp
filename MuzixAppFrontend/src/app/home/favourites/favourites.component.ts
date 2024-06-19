@@ -8,20 +8,17 @@ import { Route, Router } from '@angular/router';
   styleUrl: './favourites.component.css'
 })
 export class FavouritesComponent implements OnInit{
-  randomMovies: any[] = [];
+  favouriteMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500/';
 
   constructor(private movieService: MovieService,private router:Router) { }
 
   ngOnInit(): void {
-    this.movieService.getRandomMovies().subscribe(response => {
-      this.randomMovies = response.results;
-      console.log("Random Movies:",this.randomMovies);
-    })
-
+   this.favouriteMovies=this.movieService.getFavouriteMoviesFromLocalStorage();
+   console.log("favorites",this.favouriteMovies);
   }
-  goToMovie(movieId: number): void {
-    this.router.navigate(['/movie', movieId]);
+  goToMovie(movieId: number,isFavorite:boolean): void {
+    this.router.navigate(['/movie', movieId,{isFavorite}]);
   }
 
 
