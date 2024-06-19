@@ -18,8 +18,9 @@
     <div class="cast-container">
       <div *ngFor="let member of cast" class="cast-member">
         <img [src]="imgPrefix + member.profile_path" alt="{{ member.name }}">
-        <p>{{ member.name }}</p>
-        <p>{{ member.character }}</p>
+        <b>{{ member.name }}</b>
+        <p > {{member.job}}</p>
+
       </div>
     </div>
   </div>
