@@ -3,8 +3,9 @@
   overflow-x: auto;
   white-space: nowrap;
   padding: 10px;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #cecdcd #fff; /* For Firefox */
+  scrollbar-width:thin; /* For Firefox */
+  /* scrollbar-arrow-color: #fff; */
+  scrollbar-color: #cecdcd #fff; /* thumb-color track-color*/
 }
 
 .movies-container::-webkit-scrollbar {
@@ -17,12 +18,14 @@
   background: #e0e0e0; /* Track color */
   border-radius: 30px;
 }
-
 .movies-container::-webkit-scrollbar-thumb {
   background-color: #fff; /* Thumb color */
-  border-radius: 10px;
+  border-radius: 40px; /* Rounded corners */
   border: 2px solid #e0e0e0; /* Space around thumb */
+  background-clip: padding-box; /* Prevents the border color from bleeding into the rounded corners */
+  padding: 2px; /* Ensure there's enough space for the border radius to show */
 }
+
 
 .movies-grid {
   display: flex;

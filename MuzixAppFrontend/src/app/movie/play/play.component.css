@@ -24,6 +24,9 @@
   .cast-container, .recommended-container {
     display: flex;
     overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #cecdcd #fff; /* thumb-color track-color*/
+    overflow-y: hidden; 
   }
   
   .cast-member, .recommended-movie {
@@ -45,8 +48,9 @@
   }
   
   mat-card img {
-    max-width: 100%;
-    height: auto;
+    /* max-width: 100%; */
+    width: 100%;
+    /* height: auto; */
   }
   
   mat-card-content {
