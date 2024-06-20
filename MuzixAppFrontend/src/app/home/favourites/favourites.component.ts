@@ -15,10 +15,15 @@ export class FavouritesComponent implements OnInit{
   ngOnInit(): void {
     this.movieService.getRandomMovies().subscribe(response => {
       this.randomMovies = response.results;
-    })
+    });
   }
- 
 
-
-
+  markAsFavourite(movie: any): void {
+    this.movieService.saveFavouriteMovie(movie).subscribe(response => {
+      console.log('Movie saved as favourite:', response);
+      // Optionally, you can add logic to give feedback to the user, like showing a success message
+    }, error => {
+      console.error('Error saving favourite movie:', error);
+    });
+  }
 }

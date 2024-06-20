@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.capstone.MovieService.proxy.Userproxy;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,14 +29,15 @@ public class MovieServiceImpl implements IMovieService {
 
     @Override
     public User registerUser(User user) throws UserAlreadyExistsException {
+        System.out.println("user"+user+"  \n userId"+ user.getUserId());
         if(movieRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
         User savedUser= movieRepository.save(user);
-
+        System.out.println("Saved User"+savedUser.getUserId());
         if(!savedUser.getUserId().isEmpty()){
             ResponseEntity r=userproxy.register(user);
-            System.out.println(r.getBody());
+            System.out.println("successfully stored in mysqlDB"+r.getBody());
         }
         return savedUser;
     }

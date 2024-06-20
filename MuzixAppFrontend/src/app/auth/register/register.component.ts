@@ -36,7 +36,7 @@ export class RegisterComponent {
           panelClass: ['mat-toolbar', 'mat-primary']
         });
         console.log(data);
-        this.routerService.toDashboard(); // Adjust the route as needed
+        this.routerService.toLogin(); // Adjust the route as needed
       },
       error: (error: any) => {
         this.snackBar.open('Registration failed !! Please Try Again Later', 'close', {

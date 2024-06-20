@@ -9,21 +9,25 @@ import { TokenService } from './token.service';
 })
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
-  // private apiUrl = 'http://your-backend-api.com/api';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
   apiUrl: string = "http://localhost:9000/api/v2/";
 
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-    constructor(private http: HttpClient, private tokenService: TokenService, private authService: AuthService) { }
+  private createHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
 
-    private createHeaders(): HttpHeaders {
-      const token = this.authService.getToken(); // Fetch the token dynamically
-      return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-    }
-    getFavouriteMovie(): Observable<any> {
-      const headers = this.createHeaders();
-      return this.http.get<any>('http://localhost:9000/api/v2/user/movies');
-    }
+  getFavouriteMovie(): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.get<any>(`${this.apiUrl}user/movies`, { headers });
+  }
+
+  saveFavouriteMovie(movie: any): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
+  }
   //get Random Movies
   getRandomMovies():Observable<any>{
     return this.http.get(
