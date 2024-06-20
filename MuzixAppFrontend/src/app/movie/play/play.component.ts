@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieService } from '../../core/services/movie.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-play',
@@ -21,16 +24,17 @@ export class PlayComponent implements OnInit {
   isFavorite: boolean = false; // New property to track favorite status
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
-
+  movies: any[] = [];
+  favoriteMovies: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private movieService: MovieService,
     private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar // Inject MatSnackBar service
-  ) {}
+    private snackBar: MatSnackBar, // Inject MatSnackBar service
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -39,19 +43,37 @@ export class PlayComponent implements OnInit {
       console.log("inside paramMap ",isFavouriteParam);
       if (id) {
         this.movieId = +id;
+        this.loadMovieData();
+        // this.loadFavoriteMovies();
+
       } else {
         console.error('Movie ID is null');
       }
+    }
+    )
+  }
 
-      if (isFavouriteParam) {
-        this.isFavorite = isFavouriteParam === 'true'?true:false; // Convert string to boolean
+
+
+
+
+
+
+
+  loadMovies() {
+    this.authService.getMovies().subscribe({
+      next: (data: any[]) => {
+        this.movies = data;
+        console.log('Movies:', this.movies);
+      },
+      error: (error: any) => {
+        console.error('Error fetching movies:', error);
       }
-      this.loadMovieData();
-
     });
   }
 
   loadMovieData(): void {
+    this.loadMovies();
     this.fetchMovieDetails();
     this.fetchMovieVideos();
     this.fetchMovieCast();
@@ -138,7 +160,7 @@ export class PlayComponent implements OnInit {
   }
 
   goToMovie(movieId: number): void {
-    this.isFavorite=false;
+    this.isFavorite = false;
     this.router.navigate(['/movie', movieId]);
   }
 
