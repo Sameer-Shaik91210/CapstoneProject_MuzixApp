@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MovieService } from '../../core/services/movie.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../core/services/auth.service';
+
 
 @Component({
   selector: 'app-play',
@@ -17,29 +19,55 @@ export class PlayComponent implements OnInit {
   recommendedMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500';
   isFavorite: boolean = false; // New property to track favorite status
+  movies: any[] = [];
+  favoriteMovies: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private movieService: MovieService,
     private sanitizer: DomSanitizer,
-    private snackBar: MatSnackBar // Inject MatSnackBar service
-  ) {}
+    private snackBar: MatSnackBar, // Inject MatSnackBar service
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-   
+
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
         this.movieId = +id;
         this.loadMovieData();
+        this.loadFavoriteMovies();
+
       } else {
         console.error('Movie ID is null');
+      }
+    }
+    )
+  }
+
+
+
+
+
+
+
+
+  loadMovies() {
+    this.authService.getMovies().subscribe({
+      next: (data: any[]) => {
+        this.movies = data;
+        console.log('Movies:', this.movies);
+      },
+      error: (error: any) => {
+        console.error('Error fetching movies:', error);
       }
     });
   }
 
   loadMovieData(): void {
+    this.loadMovies();
     this.fetchMovieDetails();
     this.fetchMovieVideos();
     this.fetchMovieCast();
@@ -51,7 +79,7 @@ export class PlayComponent implements OnInit {
       this.movieService.getMovieDetails(this.movieId).subscribe(
         (response) => {
           this.movieDetails = response;
-          console.log("fetchedMovieDetails",this.movieDetails);
+          console.log("fetchedMovieDetails", this.movieDetails);
           this.checkFavoriteStatus(); // Check the favorite status when details are fetched
         },
         (error) => {
@@ -67,10 +95,10 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getMovieVideos(this.movieId).subscribe(
         (response) => {
-          console.log("Fetched Movie Trailers data",response);
+          console.log("Fetched Movie Trailers data", response);
 
           if (response.results && response.results.length > 0) {
-            console.log("Fetched Movie Trailer",response.results[0]);
+            console.log("Fetched Movie Trailer", response.results[0]);
             const videoKey = response.results[0].key;
             this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${videoKey}`);
           }
@@ -90,9 +118,9 @@ export class PlayComponent implements OnInit {
         (response) => {
           console.log("Crew", response);
           this.cast = response.crew.filter((cast: any) => cast.profile_path != null);
-        
-        
-        console.log("this crew",this.cast);
+
+
+          console.log("this crew", this.cast);
 
           // data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) => 
           //   movie.poster_path && movie.title && movie.overview && movie.release_date
@@ -111,8 +139,8 @@ export class PlayComponent implements OnInit {
     if (this.movieId !== undefined) {
       this.movieService.getRecommendedMovies(this.movieId).subscribe(
         (response) => {
-          console.log("Fetched Recommended Movies ",response.results);
-          this.recommendedMovies = response.results.filter((movie:any)=>(movie.poster_path!=null));
+          console.log("Fetched Recommended Movies ", response.results);
+          this.recommendedMovies = response.results.filter((movie: any) => (movie.poster_path != null));
         },
         (error) => {
           console.error('Error fetching recommended movies:', error);
@@ -124,7 +152,7 @@ export class PlayComponent implements OnInit {
   }
 
   goToMovie(movieId: number): void {
-    this.isFavorite=false;
+    this.isFavorite = false;
     this.router.navigate(['/movie', movieId]);
   }
 
@@ -151,6 +179,19 @@ export class PlayComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
       panelClass: ['snackbar-primary']
+    }
+    )
+  }
+
+  loadFavoriteMovies() {
+    this.authService.getFavoriteMovies().subscribe({
+      next: (data: any[]) => {
+        this.favoriteMovies = data;
+        console.log('Favorite Movies:', this.favoriteMovies);
+      },
+      error: (error: any) => {
+        console.error('Error fetching favorite movies:', error);
+      }
     });
   }
 }

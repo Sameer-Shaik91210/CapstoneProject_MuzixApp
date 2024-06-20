@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.capstone.MovieService.proxy.Userproxy;
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,14 +29,15 @@ public class MovieServiceImpl implements IMovieService {
 
     @Override
     public User registerUser(User user) throws UserAlreadyExistsException {
+        System.out.println("user"+user+"  \n userId"+ user.getUserId());
         if(movieRepository.findById(user.getUserId()).isPresent()){
             throw new UserAlreadyExistsException();
         }
         User savedUser= movieRepository.save(user);
-
+        System.out.println("Saved User"+savedUser.getUserId());
         if(!savedUser.getUserId().isEmpty()){
             ResponseEntity r=userproxy.register(user);
-            System.out.println(r.getBody());
+            System.out.println("successfully stored in mysqlDB"+r.getBody());
         }
         return savedUser;
     }
@@ -45,18 +48,14 @@ public class MovieServiceImpl implements IMovieService {
             throw new UserNotFoundException();
         }
         User user=movieRepository.findById(userId).get();
-        List<FavouriteMovie> userMovieList=user.getMovieList();
-
-        //let's check whether the movie we are going to save is already existing !!
-
-        for(FavouriteMovie currentMovie:userMovieList){
-            if(currentMovie.getMovieId().equals(movie.getMovieId())){
-                throw new MovieAlreadyExistsException();
-            }
+        if (user.getMovieList() == null) {
+            user.setMovieList(Arrays.asList(movie));
+        } else {
+            List<FavouriteMovie> userMovieList = user.getMovieList();
+            //let's check whether the movie we are going to save is already existing !!
+            userMovieList.add(movie);
+            user.setMovieList(userMovieList);
         }
-
-        userMovieList.add(movie);
-        user.setMovieList(userMovieList);
         return movieRepository.save(user);
     }
 
@@ -98,4 +97,3 @@ public class MovieServiceImpl implements IMovieService {
         return movieRepository.findById(userId).get().getMovieList();
     }
 }
-
