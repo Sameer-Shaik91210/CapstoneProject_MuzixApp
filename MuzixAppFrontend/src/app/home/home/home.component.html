@@ -1,10 +1,31 @@
+
 <div class="hero-section" style="background-image: url('https://images.pexels.com/photos/2563129/pexels-photo-2563129.jpeg?auto=compress&cs=tinysrgb&w=600');">
   <div class="hero-content">
     <h1>Welcome</h1>
     <p>Millions of Movies, TV Shows and People to discover. Explore Now.</p>
-  
+
   </div>
 </div>
-
-<app-favourites></app-favourites>
+<h2>Movies</h2>
+<div class="movies-container">
+  <div class="movies-grid">
+    <div *ngFor="let movie of movies" class="movie-tile">
+      <mat-card class="movie-card">
+        <img mat-card-image *ngIf="movie.poster_path" [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+        <mat-card-content>
+          <h3>{{ movie.title }}</h3>
+          <p>ReleaseDate : {{ movie.release_date }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-icon-button (click)="addFavorite(movie)">
+            <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
+          </button>
+          <button mat-button (click)="goToMovie(movie.id)">Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
 <app-recommended></app-recommended>
+
+

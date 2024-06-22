@@ -1,0 +1,42 @@
+/* src/app/register/register.component.css */
+.register-background {
+  background-image: url('https://woorise.com/wp-content/uploads/2021/03/Online-event-registration.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+mat-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+}
+
+mat-card-title {
+  text-align: center;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.additional-links {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.additional-links p {
+  margin: 0;
+}

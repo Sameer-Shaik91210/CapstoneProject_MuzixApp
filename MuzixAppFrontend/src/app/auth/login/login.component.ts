@@ -11,6 +11,8 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class LoginComponent {
   logInForm: FormGroup;
+   private emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;  // Email regex pattern
+  private passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Password regex pattern
 
   constructor(
     private fb: FormBuilder,
@@ -19,29 +21,25 @@ export class LoginComponent {
     private router: Router
   ) {
     this.logInForm = this.fb.group({
-      userId: ['', Validators.required],
-      password: ['', Validators.required]
+      userEmail: ['', [Validators.required, Validators.pattern(this.emailPattern)]], // Added Validators.pattern
+      password: ['', [Validators.required, Validators.pattern(this.passwordPattern)]] // Added Validators.pattern
     });
   }
 
   onLogin(): void {
-    let logInUser: any = this.logInForm.value as any;
-    console.log(logInUser);
+    if (this.logInForm.invalid) {
+      return;
+    }
 
+    const logInUser = this.logInForm.value;
     this.authService.login(logInUser).subscribe({
       next: (data: any) => {
         this.snackBar.open('Login successful !!', 'success', {
           duration: 5000,
           panelClass: ['mat-toolbar', 'mat-primary']
         });
-        console.log(data);
-
-        // Save the token
-        console.log(data,"from login component");
         this.authService.saveToken(data);
-
-        // Navigate to the dashboard
-        this.router.navigate(['/dashboard']); // Adjust the route as needed
+        this.router.navigate(['/home']);
       },
       error: (error: any) => {
         this.snackBar.open('Failed to sign in !! Please Try Again Later', 'close', {

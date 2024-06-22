@@ -10,13 +10,41 @@ import { TokenService } from './token.service';
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
-  apiUrl: string = "http://localhost:9000/api/v2/";
+  private apiUrl = 'http://localhost:9000/api/v2/';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   private createHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
+  getFavouriteMovies(): Observable<any[]> {
+    const headers = this.createHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}user/movies`, { headers });
+  }
+
+  saveFavouriteMovie(movie: any): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
+  }
+
+  removeFavouriteMovie(movieId: number): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.delete<any>(`${this.apiUrl}user/movie/${movieId}`, { headers });
+  }
+
+  getAllMovies(): Observable<any> {
+    return this.http.get<any>(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`);
+  }
+
+  getMovieDetails(movieId: number): Observable<any> {
+    return this.http.get<any>(`${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`);
+  }
+
+
+  addFavouriteMovie(movie: any): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
   }
 
   getFavouriteMovie(): Observable<any> {
@@ -24,20 +52,12 @@ export class MovieService {
     return this.http.get<any>(`${this.apiUrl}user/movies`, { headers });
   }
 
-  saveFavouriteMovie(movie: any): Observable<any> {
-    const headers = this.createHeaders();
-    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
-  }
   //get Random Movies
   getRandomMovies():Observable<any>{
     return this.http.get(
       `${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`
     );
   }
-  getMovieDetails(movieId: number): Observable<any> {
-    return this.http.get(`${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`);
-  }
-
 
   getMovieVideos(movieId: number): Observable<any> {
     return this.http.get(
@@ -63,17 +83,7 @@ export class MovieService {
     );
   }
 
-  getFavouriteMovies(): Observable<any> {
-    return this.http.get(`${this.apiUrl+"user/movies"}/favourites`);
-  }
 
-  addFavouriteMovie(movieId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/favourites`, { movieId });
-  }
-
-  removeFavouriteMovie(movieId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/favourites/${movieId}`);
-  }
 
   searchMovies(query: string): Observable<any> {
     return this.http.get(
@@ -81,9 +91,4 @@ export class MovieService {
     );
   }
   // search/movie?query=Tom&include_adult=false&language=en-US&page=1%27&api_key=
-
-  
-  
-
-
 }

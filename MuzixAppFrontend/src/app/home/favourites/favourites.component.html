@@ -1,13 +1,19 @@
-<h2>Favourites</h2>
+<h2>Favorite Movies</h2>
 <div class="movies-container">
   <div class="movies-grid">
-    <div *ngFor="let movie of randomMovies" class="movie-tile">
-      <mat-card class="movie-card" (click)="goToMovie(movie.id)">
-        <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+    <div *ngFor="let movie of favoriteMovies" class="movie-tile">
+      <mat-card class="movie-card">
+        <img mat-card-image *ngIf="movie.poster_path" [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
         <mat-card-content>
           <h3>{{ movie.title }}</h3>
-          <p>{{ movie.overview }}</p>
+          <p>{{ movie.release_date }}</p>
         </mat-card-content>
+        <div class="actions">
+          <button mat-icon-button (click)="removeFavorite(movie)">
+            <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
+          </button>
+          <button mat-button (click)="goToMovie(movie.id)">Details</button>
+        </div>
       </mat-card>
     </div>
   </div>

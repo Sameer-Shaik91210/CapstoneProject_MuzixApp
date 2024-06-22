@@ -1,35 +1,34 @@
 package com.example.UserAuthenticationService.domain;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 @Entity
 public class User {
     @Id
-    private String userId;
+    private String userEmail;
     private String password;
 
     public User() {
     }
 
-    public User(String userId, String password) {
-        this.userId = userId;
+    public User(String userEmail, String password) {
+        this.userEmail = userEmail;
         this.password = password;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userEmail=" + userEmail +
                 ", password='" + password + '\'' +
                 '}';
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
 
@@ -41,6 +40,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 }

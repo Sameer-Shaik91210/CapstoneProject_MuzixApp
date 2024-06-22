@@ -6,7 +6,7 @@ import com.example.UserAuthenticationService.exception.UserAlreadyExistsExceptio
 
 public interface UserService
 {
-User saveUser (User user) throws UserAlreadyExistsException;
-User getUserByUserIdAndPassword(String userId, String password) throws InvalidCredentialsException;
+    User saveUser (User user) throws UserAlreadyExistsException;
 
+    User getUserByUserEmailAndPassword(String userEmail, String password) throws InvalidCredentialsException;
 }

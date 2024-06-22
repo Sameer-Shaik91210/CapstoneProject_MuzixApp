@@ -14,54 +14,41 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/v1/")
 public class UserController {
+
     private UserService userService;
     private SecurityTokenGenerator securityTokenGenerator;
-    private ResponseEntity responseEntity;
 
     @Autowired
     public UserController(UserService userService, SecurityTokenGenerator securityTokenGenerator) {
         this.userService = userService;
         this.securityTokenGenerator = securityTokenGenerator;
     }
+
     @PostMapping("register")
     public ResponseEntity<?> register(@RequestBody User user) throws UserAlreadyExistsException {
         try {
             userService.saveUser(user);
-            responseEntity = new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             throw new UserAlreadyExistsException();
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return responseEntity;
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user) throws InvalidCredentialsException {
         try {
-            User retrievedUser = userService.getUserByUserIdAndPassword(user.getUserId(), user.getPassword());
-            String token = securityTokenGenerator.createToken(retrievedUser);
-            return new ResponseEntity<>(token, HttpStatus.OK);
-        } catch (InvalidCredentialsException e) {
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    /*public ResponseEntity<?> login(@RequestBody User user) throws InvalidCredentialsException {
-        try {
-            User retrievedUser = userService.getUserByUserIdAndPassword(user.getUserId(), user.getPassword());
+            User retrievedUser = userService.getUserByUserEmailAndPassword(user.getUserEmail(), user.getPassword());
             if (retrievedUser == null) {
                 throw new InvalidCredentialsException();
             }
             String token = securityTokenGenerator.createToken(retrievedUser);
-            responseEntity = new ResponseEntity<>(token, HttpStatus.OK);
-        }catch (InvalidCredentialsException e) {
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        } catch (InvalidCredentialsException e) {
             throw new InvalidCredentialsException();
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        catch (Exception e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return responseEntity;
-    }*/
+    }
 }

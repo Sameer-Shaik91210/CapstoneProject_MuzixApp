@@ -1,7 +1,60 @@
-.login-container {
+
+/* src/app/login/login.component.css  .login-container {
   margin:auto;
   margin-top: 100px;
   display: flex;
   flex-direction: column;
   width: 400px;
+} */
+.login-background {
+  background-image: url('https://wallpapercave.com/wp/34CZFYH.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+h1{
+  color: white;
+  font-size: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #673ab7;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+
+mat-card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+}
+
+mat-card-title {
+  text-align: center;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.additional-links {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.additional-links p {
+  margin: 0;
+}
+

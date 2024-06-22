@@ -9,10 +9,10 @@ import java.util.List;
 public class User {
 
     @Id
-    private String userId;
+    private String userEmail;
     private String userName;
     private String password;
-    private String userEmail;
+    private String userId;
     private String imageUrl;
 
     private List<FavouriteMovie> movieList;
