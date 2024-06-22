@@ -1,5 +1,7 @@
 server:
   port: 9000
+  hostname: localhost
+
 spring:
   application:
     name: spring-cloud-api-gateway

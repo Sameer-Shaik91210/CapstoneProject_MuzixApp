@@ -8,23 +8,24 @@ import { Login } from '../../models/login';
   providedIn: 'root',
 })
 export class AuthService {
-
   private apiUrl = 'http://localhost:9000/api/v1/';
   private registerUrl = 'http://localhost:9000/api/v2/register';
+
+  // private loggedIn=false;
 
   constructor(private http: HttpClient, private routerService: RouterService) {}
 
   login(user: any): Observable<any> {
-    //return this.http.post<any>(`${this.apiUrl}login`, { userId, password });
-    return this.http.post<any>(`${this.apiUrl}login`,user, { responseType: 'text' as 'json' });
+    return this.http.post<any>(`${this.apiUrl}login`, user, { responseType: 'text' as 'json' });
   }
+
   register(user: any): Observable<any> {
     return this.http.post<any>(this.registerUrl, user);
   }
 
-  saveToken(token: any) {
-    console.log("data",token)
-    // console.log(token?.token,"token")
+  saveToken(token: any): void {
+    // this.loggedIn=true;
+    console.log('data', token);
     localStorage.setItem('jwtToken', token);
   }
 
@@ -36,7 +37,8 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('jwtToken');
+    this.routerService.toLogin();
   }
 }

@@ -1,58 +1,21 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="/home" (click)="drawer.toggle()">Home</a>
-      <a mat-list-item href="/favorite-movies" (click)="drawer.toggle()">Favorite Movies</a>
-      <a mat-list-item href="/recommended-movies">Recommended Movies</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <div class="toolbar-content">
-        <button *ngIf="!(isHandset$ | async)" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-          <!-- <mat-icon aria-label="Side nav toggle icon">menu</mat-icon> -->
-        <h1 class="title">Muzix</h1>
+<mat-toolbar color="primary">
+  <div class="toolbar-content">
+    <h1 class="title" (click)="navigateToHome()">Muzix</h1>
 
-        </button>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search" [(ngModel)]="searchQuery" />
+      <button mat-icon-button class="search-button" (click)="navigateToSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
 
+    <button mat-button class="favorite-button" routerLink="/favorite-movies">Favorites</button>
 
-        <!-- <span class="title">Muzix</span> -->
+    <span class="spacer"></span>
 
-        <!-- search movies -->
-        <!-- <div class="search-container custom-search-container">
-          <mat-form-field class="search-box custom-search-box">
-            <input matInput placeholder="Search" [(ngModel)]="searchQuery">
-          </mat-form-field>
-          <button mat-icon-button (click)="navigateToSearch()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </div> -->
-
-        <div class="search-container">
-          <input type="text" class="search-input" placeholder="Search" [(ngModel)]="searchQuery" />
-          <!-- <button class="search-button" (click)="navigateToSearch()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/>
-            </svg>
-          </button> -->
-          <button mat-icon-button class="search-button" (click)="navigateToSearch()">
-            <mat-icon>search</mat-icon>
-          </button>
-        </div>
-
-
-        <span class="spacer"></span>
-
-        <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
-          <mat-icon>logout</mat-icon>
-        </button>
-
-      </div>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

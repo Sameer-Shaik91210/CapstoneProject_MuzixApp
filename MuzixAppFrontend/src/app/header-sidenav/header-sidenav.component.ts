@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { LoginComponent } from '../auth/login/login.component';
-import { MovieService } from '../core/services/movie.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-header-sidenav',
   templateUrl: './header-sidenav.component.html',
   styleUrls: ['./header-sidenav.component.css']
 })
-export class HeaderSidenavComponent {
+export class HeaderSidenavComponent implements OnInit{
   searchQuery: string = '';
 
   private breakpointObserver = inject(BreakpointObserver);
@@ -22,10 +21,15 @@ export class HeaderSidenavComponent {
     );
   isLoggedIn: boolean = true;
 
-  constructor(private router: Router ,private movieService: MovieService) {
+  constructor(private authService:AuthService, private router: Router) {
   }
-  onLoggedIn($event: any) {
-    this.isLoggedIn = !($event instanceof LoginComponent);
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
   }
 
   navigateToSearch() {
@@ -36,9 +40,9 @@ export class HeaderSidenavComponent {
   }
 
   logout() {
-    // Implement your logout logic here
     console.log('User logged out');
     this.isLoggedIn = false;
-    this.router.navigate(['/login']); // Redirect to login page after logout
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

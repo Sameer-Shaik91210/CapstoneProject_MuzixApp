@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.capstone.MovieService.proxy.Userproxy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,10 +32,10 @@ public class MovieServiceImpl implements IMovieService {
             throw new UserAlreadyExistsException();
         }
         User savedUser= movieRepository.save(user);
-
+        System.out.println("Successfully saved user to Mongo DB ,trying to save user to Authentication related My SQL DB... "+user);
         if(!savedUser.getUserEmail().isEmpty()){
             ResponseEntity r=userproxy.register(user);
-            System.out.println(r.getBody());
+            System.out.println("successfully registed authentication database.."+r.getBody());
         }
         return savedUser;
     }
@@ -42,20 +43,29 @@ public class MovieServiceImpl implements IMovieService {
     @Override
     public User saveUserFavouriteMovieToTheMovieList(FavouriteMovie movie, String userEmail) throws MovieAlreadyExistsException, UserNotFoundException {
         if(movieRepository.findByUserEmail(userEmail).isEmpty()){
+            System.out.println("User Not Found "+userEmail +" Movie "+movie);
             throw new UserNotFoundException();
         }
         User user=movieRepository.findByUserEmail(userEmail).get();
+        System.out.println("The found user is :"+user);
         List<FavouriteMovie> userMovieList=user.getMovieList();
-
+        System.out.println("usermovielist"+userMovieList);
         //let's check whether the movie we are going to save is already existing !!
 
+        if(userMovieList==null){
+            userMovieList=new ArrayList<>();
+        }
         for(FavouriteMovie currentMovie:userMovieList){
-            if(currentMovie.getId()==movie.getId()){
+            if(currentMovie.getId()==(movie.getId())){
+                System.out.println("The movie is already existing "+movie.getId() +"Existing movie"+currentMovie.getId());
                 throw new MovieAlreadyExistsException();
             }
         }
 
+        System.out.println("Before Adding  movie to user movie list!");
         userMovieList.add(movie);
+        System.out.println("After Adding  movie to user movie list!");
+
         user.setMovieList(userMovieList);
         return movieRepository.save(user);
     }

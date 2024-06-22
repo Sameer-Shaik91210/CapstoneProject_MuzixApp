@@ -10,7 +10,7 @@ export class RouterService {
 
   toDashboard() {
 
-    this.routerService.navigate(["/dashboard"]);
+    this.routerService.navigate(["/home"]);
   }
 
   toHome(){

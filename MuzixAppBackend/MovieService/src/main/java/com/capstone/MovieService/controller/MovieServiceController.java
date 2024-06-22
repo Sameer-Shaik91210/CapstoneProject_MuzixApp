@@ -52,8 +52,10 @@ public class MovieServiceController {
         try {
             Claims claims = (Claims) request.getAttribute("claims");
             String userEmail = claims.getSubject();
+            System.out.println("Inside save movie api , userEmail from token is :"+userEmail+ "  and movie is "+movie);
             //responseEntity = new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie, userEmail), HttpStatus.OK);
             User updatedUser = movieService.saveUserFavouriteMovieToTheMovieList(movie, userEmail);
+            System.out.println("Successfully saved movie to user favorites list!!");
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (UserNotFoundException | MovieAlreadyExistsException e) {
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
