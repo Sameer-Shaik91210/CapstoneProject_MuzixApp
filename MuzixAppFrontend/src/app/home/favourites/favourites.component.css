@@ -45,8 +45,9 @@
 
 .movie-card {
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 10px 4px 8px rgba(0,0,0,0.1);
   transition: box-shadow 0.3s ease;
+  border-radius: 15px;
 }
 
 .movie-card:hover {

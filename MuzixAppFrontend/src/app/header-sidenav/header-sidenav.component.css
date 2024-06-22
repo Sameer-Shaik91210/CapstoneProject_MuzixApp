@@ -4,6 +4,8 @@
 
 .sidenav {
   width: 200px;
+  background: #673ab7;
+
 }
 
 .sidenav .mat-toolbar {
@@ -25,6 +27,14 @@
 .title {
   font-size: 24px;
   font-weight: bold;
+  padding-right: 10px;
+  /* background-color: aqua; */
+  width: fit-content;
+  transition: all 0.5s ease;
+}
+.title:hover{
+  background: none;
+  transform: scale(1.1);
 }
 
 .spacer {
@@ -40,7 +50,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
-  margin-left: 30px;
+  margin-left: 40px;
 }
 
 .search-input {

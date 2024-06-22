@@ -15,9 +15,13 @@
     <mat-toolbar color="primary">
       <div class="toolbar-content">
         <button *ngIf="!(isHandset$ | async)" type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+          <!-- <mat-icon aria-label="Side nav toggle icon">menu</mat-icon> -->
+        <h1 class="title">Muzix</h1>
+
         </button>
-        <span class="title">Muzix</span>
+
+
+        <!-- <span class="title">Muzix</span> -->
 
         <!-- search movies -->
         <!-- <div class="search-container custom-search-container">
