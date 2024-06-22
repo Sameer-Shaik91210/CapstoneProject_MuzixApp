@@ -3,12 +3,14 @@ package com.example.UserAuthenticationService.controller;
 import com.example.UserAuthenticationService.domain.User;
 import com.example.UserAuthenticationService.exception.InvalidCredentialsException;
 import com.example.UserAuthenticationService.exception.UserAlreadyExistsException;
+import com.example.UserAuthenticationService.exception.UserDoesNotExistsException;
 import com.example.UserAuthenticationService.security.SecurityTokenGenerator;
 import com.example.UserAuthenticationService.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -44,11 +46,19 @@ public class UserController {
                 throw new InvalidCredentialsException();
             }
             String token = securityTokenGenerator.createToken(retrievedUser);
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            Map<String,String> map=new HashMap<>();
+            map.put("token",token);
+            map.put("email",user.getUserEmail());
+            return new ResponseEntity<>(map, HttpStatus.OK);
         } catch (InvalidCredentialsException e) {
             throw new InvalidCredentialsException();
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("userProfile/{userEmail}")
+    public ResponseEntity<?> getUserProfile(@PathVariable String userEmail) throws UserDoesNotExistsException{
+        return new ResponseEntity<>(userService.getUserProfileImage(userEmail),HttpStatus.OK);
     }
 }

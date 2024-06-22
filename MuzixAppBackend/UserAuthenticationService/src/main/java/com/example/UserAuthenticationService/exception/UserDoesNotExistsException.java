@@ -1,8 +1,9 @@
 package com.example.UserAuthenticationService.exception;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.CONFLICT, reason = "User already exists")
-public class UserAlreadyExistsException extends Exception {
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "User does not exists!!!")
+public class UserDoesNotExistsException extends Exception{
 }

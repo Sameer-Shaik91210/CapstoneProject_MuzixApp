@@ -2,6 +2,7 @@ package com.example.UserAuthenticationService.service;
 import com.example.UserAuthenticationService.domain.User;
 import com.example.UserAuthenticationService.exception.InvalidCredentialsException;
 import com.example.UserAuthenticationService.exception.UserAlreadyExistsException;
+import com.example.UserAuthenticationService.exception.UserDoesNotExistsException;
 import com.example.UserAuthenticationService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,17 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(user);
     }
 
+    @Override
+    public String getUserProfileImage(String userEmail) throws UserDoesNotExistsException{
+        if (userRepository.findByUserEmail(userEmail).isEmpty()) {
+            throw new UserDoesNotExistsException();
+        }
+
+        User user=userRepository.findByUserEmail(userEmail).get();
+
+
+        return user.getImageUrl();
+    }
 
 
     @Override

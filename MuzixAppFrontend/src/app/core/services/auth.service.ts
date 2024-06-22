@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { RouterService } from './router.service';
 import { Login } from '../../models/login';
 
@@ -10,6 +10,8 @@ import { Login } from '../../models/login';
 export class AuthService {
   private apiUrl = 'http://localhost:9000/api/v1/';
   private registerUrl = 'http://localhost:9000/api/v2/register';
+
+  private currentUserProfile:any='';
 
   // private loggedIn=false;
 
@@ -22,6 +24,15 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post<any>(this.registerUrl, user);
   }
+
+  getUserProfileFromAPI(userEmail: string): Observable<string> {
+    return this.http.get(`${this.apiUrl}userProfile/${userEmail}`, { responseType: 'text' });
+  }
+
+  getCurrentUserProfile(): any {
+    return this.currentUserProfile;
+  }
+
 
   saveToken(token: any): void {
     // this.loggedIn=true;

@@ -20,12 +20,16 @@ export class HeaderSidenavComponent implements OnInit{
       shareReplay()
     );
   isLoggedIn: boolean = true;
+  currentUserProfile:any='';
 
   constructor(private authService:AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentUserProfile=this.authService.getCurrentUserProfile();
+    console.log("The current user profile is :",this.authService.getCurrentUserProfile());
+
   }
 
   navigateToHome() {

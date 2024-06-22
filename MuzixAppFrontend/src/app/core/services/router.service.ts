@@ -16,7 +16,7 @@ export class RouterService {
   toHome(){
     console.log("Check 3 in RouterService");
 
-    this.routerService.navigate(["/home"]);
+    this.routerService.navigate(['/home']);
   }
 
   toLogin() {
