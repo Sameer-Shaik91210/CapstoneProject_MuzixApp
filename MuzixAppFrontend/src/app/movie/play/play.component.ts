@@ -52,16 +52,8 @@ export class PlayComponent implements OnInit {
     }
     )
   }
-
-
-
-
-
-
-
-
   loadMovies() {
-    this.authService.getMovies().subscribe({
+    this.movieService.getAllMovies().subscribe({
       next: (data: any[]) => {
         this.movies = data;
         console.log('Movies:', this.movies);
@@ -130,7 +122,7 @@ export class PlayComponent implements OnInit {
         
         // console.log("this crew",this.cast);
 
-          // data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) => 
+          // data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) =>
           //   movie.poster_path && movie.title && movie.overview && movie.release_date
           // );
         },
@@ -165,33 +157,44 @@ export class PlayComponent implements OnInit {
   }
 
   // New methods for handling favorite status
-  toggleFavorite(): void {
-    this.isFavorite = !this.isFavorite;
-    this.showFavoriteSnackBar();
-    // Perform any additional logic or service calls here
-    if (this.isFavorite) {
-      // console.log("The Movie is ",this.movieDetails);
-      this.movieService.addFavouriteMovie(this.movieDetails);
-      // console.log(`Marked movie ${this.movieId} as favorite`);
-    } else {
-      this.movieService.removeFavouriteMovie(this.movieId);
-      // console.log(`Unmarked movie ${this.movieId} as favorite`);
-    }
-  }
 
-  checkFavoriteStatus(): void {
-    // Add logic to check if the movie is already marked as favorite
-    // For example, check local storage or a service call
-    // this.isFavorite = ...;
+
+  toggleFavorite(): void {
+    if (this.isFavorite) {
+      this.movieService.removeFavouriteMovie(this.movieDetails.id).subscribe(() => {
+        this.isFavorite = false;
+        this.showFavoriteSnackBar();
+      });
+    } else {
+      this.movieService.saveFavouriteMovie(this.movieDetails).subscribe((newFavorite) => {
+        this.isFavorite = true;
+        this.showFavoriteSnackBar();
+      });
+    }
   }
 
   showFavoriteSnackBar(): void {
     const message = this.isFavorite ? 'Marked as favorite' : 'Unmarked as favorite';
     this.snackBar.open(message, 'Close', {
       duration: 3000,
-      panelClass:['snackbar-primary'],
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition
+      panelClass: ['snackbar-primary']
+    });
+  }
+
+  checkFavoriteStatus(): void {
+    if (this.movieDetails) {
+      this.isFavorite = this.favoriteMovies.some(fav => fav.id === this.movieDetails.id);
+    }
+  }
+  loadFavoriteMovies(): void {
+    this.movieService.getFavouriteMovies().subscribe({
+      next: (data: any[]) => {
+        this.favoriteMovies = data;
+        this.checkFavoriteStatus(); // Check the favorite status when favorite movies are loaded
+      },
+      error: (error: any) => {
+        console.error('Error fetching favorite movies:', error);
+      }
     });
   }
 }

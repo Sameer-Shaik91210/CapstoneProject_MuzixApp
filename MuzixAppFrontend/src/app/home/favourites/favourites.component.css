@@ -1,59 +1,74 @@
+/*.movies-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+  }
+
+  .movies-grid {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .movie-tile {
+    flex: 0 0 auto;
+    width: 200px;
+    margin-right: 10px;
+  }
+
+  .movie-card {
+    width: 100%;
+  }
+
+  mat-card img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  mat-card-content {
+    padding: 10px;
+  }
+
+  mat-card h3 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  mat-card p {
+    font-size: 14px;
+    margin: 0;
+    max-height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }*/
+/* favourites.component.css */
 .movies-container {
   display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 10px;
-  scrollbar-width:thin; /* For Firefox */
-  /* scrollbar-arrow-color: #fff; */
-  scrollbar-color: #cecdcd #fff; /* thumb-color track-color*/
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
-
-.movies-container::-webkit-scrollbar {
-  height: 8px; /* Height of the horizontal scrollbar */
-  border-radius: 10px;
-
-}
-
-.movies-container::-webkit-scrollbar-track {
-  background: #e0e0e0; /* Track color */
-  border-radius: 30px;
-}
-.movies-container::-webkit-scrollbar-thumb {
-  background-color: #fff; /* Thumb color */
-  border-radius: 40px; /* Rounded corners */
-  border: 2px solid #e0e0e0; /* Space around thumb */
-  background-clip: padding-box; /* Prevents the border color from bleeding into the rounded corners */
-  padding: 2px; /* Ensure there's enough space for the border radius to show */
-}
-
 
 .movies-grid {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .movie-tile {
-  flex: 0 0 auto;
-  width: 200px; /* Adjust the width as per your requirement */
-  margin-right: 10px;
-  transition: transform 0.3s ease;
-}
-
-.movie-tile:hover {
-  transform: scale(1.05);
+  width: 200px;
 }
 
 .movie-card {
-  width: 100%;
-  box-shadow: 10px 4px 8px rgba(0,0,0,0.1);
-  transition: box-shadow 0.3s ease;
-  border-radius: 15px;
+  position: relative;
 }
 
-.movie-card:hover {
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
-
 mat-card img {
   max-width: 100%;
   height: auto;
@@ -66,15 +81,12 @@ mat-card-content {
 mat-card h3 {
   font-size: 16px;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 mat-card p {
   font-size: 14px;
   margin: 0;
-  max-height: 50px; /* Adjust the height to limit the text */
+  max-height: 50px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

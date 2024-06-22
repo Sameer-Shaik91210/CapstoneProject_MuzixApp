@@ -12,10 +12,10 @@ import java.util.List;
 public interface IMovieService {
 
     User registerUser(User user) throws UserAlreadyExistsException;
-    User saveUserFavouriteMovieToTheMovieList(FavouriteMovie movie, String userId) throws MovieAlreadyExistsException, UserNotFoundException;
+    User saveUserFavouriteMovieToTheMovieList(FavouriteMovie movie, String userEmail) throws MovieAlreadyExistsException, UserNotFoundException;
 
-    User deleteAMovieFromUserFavouriteMovieList(String movieId,String userId) throws
+    User deleteAMovieFromUserFavouriteMovieList(int id,String userEmail) throws
             UserNotFoundException, MovieNotFoundEXception;
 
-    List<FavouriteMovie> getAllFavouriteMoviesOfUser(String userId) throws UserNotFoundException,Exception;
+    List<FavouriteMovie> getAllFavouriteMoviesOfUser(String userEmail) throws UserNotFoundException,Exception;
 }

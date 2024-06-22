@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.capstone.MovieService.proxy.Userproxy;
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -29,50 +27,55 @@ public class MovieServiceImpl implements IMovieService {
 
     @Override
     public User registerUser(User user) throws UserAlreadyExistsException {
-        System.out.println("user"+user+"  \n userId"+ user.getUserId());
-        if(movieRepository.findById(user.getUserId()).isPresent()){
+        if(movieRepository.findByUserEmail(user.getUserEmail()).isPresent()){
             throw new UserAlreadyExistsException();
         }
         User savedUser= movieRepository.save(user);
-        System.out.println("Saved User"+savedUser.getUserId());
-        if(!savedUser.getUserId().isEmpty()){
+
+        if(!savedUser.getUserEmail().isEmpty()){
             ResponseEntity r=userproxy.register(user);
-            System.out.println("successfully stored in mysqlDB"+r.getBody());
+            System.out.println(r.getBody());
         }
         return savedUser;
     }
 
     @Override
-    public User saveUserFavouriteMovieToTheMovieList(FavouriteMovie movie, String userId) throws MovieAlreadyExistsException, UserNotFoundException {
-        if(movieRepository.findById(userId).isEmpty()){
+    public User saveUserFavouriteMovieToTheMovieList(FavouriteMovie movie, String userEmail) throws MovieAlreadyExistsException, UserNotFoundException {
+        if(movieRepository.findByUserEmail(userEmail).isEmpty()){
             throw new UserNotFoundException();
         }
-        User user=movieRepository.findById(userId).get();
-        if (user.getMovieList() == null) {
-            user.setMovieList(Arrays.asList(movie));
-        } else {
-            List<FavouriteMovie> userMovieList = user.getMovieList();
-            //let's check whether the movie we are going to save is already existing !!
-            userMovieList.add(movie);
-            user.setMovieList(userMovieList);
-        }
-        return movieRepository.save(user);
-    }
-
-    @Override
-    public User deleteAMovieFromUserFavouriteMovieList(String movieId, String userId) throws UserNotFoundException, MovieNotFoundEXception {
-
-        boolean isMovieFound=false;
-        if(movieRepository.findById(userId).isEmpty()){
-            throw new UserNotFoundException();
-        }
-        User user=movieRepository.findById(userId).get();
+        User user=movieRepository.findByUserEmail(userEmail).get();
         List<FavouriteMovie> userMovieList=user.getMovieList();
 
         //let's check whether the movie we are going to save is already existing !!
 
         for(FavouriteMovie currentMovie:userMovieList){
-            if(currentMovie.getMovieId().equals(movieId)){
+            if(currentMovie.getId()==movie.getId()){
+                throw new MovieAlreadyExistsException();
+            }
+        }
+
+        userMovieList.add(movie);
+        user.setMovieList(userMovieList);
+        return movieRepository.save(user);
+    }
+
+
+
+    @Override
+    public User deleteAMovieFromUserFavouriteMovieList(int id, String userEmail) throws UserNotFoundException, MovieNotFoundEXception {
+
+        boolean isMovieFound=false;
+        if(movieRepository.findByUserEmail(userEmail).isEmpty()){
+            throw new UserNotFoundException();
+        }
+        User user=movieRepository.findByUserEmail(userEmail).get();
+        List<FavouriteMovie> userMovieList=user.getMovieList();
+
+        //let's check whether the movie we are going to save is already existing !!
+
+        for(FavouriteMovie currentMovie:userMovieList){
+            if(currentMovie.getId()==(id)){
                 isMovieFound=true;
                 userMovieList.remove(currentMovie);
                 break;
@@ -89,11 +92,12 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public List<FavouriteMovie> getAllFavouriteMoviesOfUser(String userId) throws UserNotFoundException ,Exception{
+    public List<FavouriteMovie> getAllFavouriteMoviesOfUser(String userEmail) throws UserNotFoundException ,Exception{
 
-        if(movieRepository.findById(userId).isEmpty()){
+        if(movieRepository.findByUserEmail(userEmail).isEmpty()){
             throw new UserNotFoundException();
         }
-        return movieRepository.findById(userId).get().getMovieList();
+        return movieRepository.findByUserEmail(userEmail).get().getMovieList();
     }
 }
+

@@ -19,8 +19,8 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'home', component: HomeComponent },
-      {path:"search",component:SearchComponent},
-      { path: 'favorite-movies', component: FavouritesComponent },
+      { path:"search",component:SearchComponent},
+      { path: 'favorite-movies', component: FavouritesComponent,  },
       { path: 'recommended-movies', component: RecommendedComponent },
       { path: 'movie/:id', component: PlayComponent },
     ],

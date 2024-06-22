@@ -1,12 +1,10 @@
 package com.example.UserAuthenticationService.service;
-
 import com.example.UserAuthenticationService.domain.User;
 import com.example.UserAuthenticationService.exception.InvalidCredentialsException;
 import com.example.UserAuthenticationService.exception.UserAlreadyExistsException;
 import com.example.UserAuthenticationService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 @Service
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
@@ -14,18 +12,19 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     @Override
     public User saveUser(User user) throws UserAlreadyExistsException {
-        if (userRepository.findById(user.getUserId()).isPresent()) {
+        if (userRepository.findByUserEmail(user.getUserEmail()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         return userRepository.save(user);
     }
 
+
+
     @Override
-    public User getUserByUserIdAndPassword(String userId, String password) throws InvalidCredentialsException {
-        User loggedInUser = userRepository.findByUserIdAndPassword(userId, password);
+    public User getUserByUserEmailAndPassword(String userEmail, String password) throws InvalidCredentialsException {
+        User loggedInUser = userRepository.findByUserEmailAndPassword(userEmail, password);
         if (loggedInUser == null) {
             throw new InvalidCredentialsException();
         }

@@ -1,27 +1,40 @@
 <!-- src/app/login/login.component.html -->
-<div class="login-container">
-  <mat-card>
-    <mat-card-title>Login</mat-card-title>
-    <mat-card-content>
-      <form ngNativeValidate [formGroup]="logInForm" (ngSubmit)="onLogin()">
+<div class="login-background">
+  <div class="login-container">
+    <mat-card>
+      <h1>Muzix</h1>
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="logInForm" (ngSubmit)="onLogin()">
+          <mat-form-field>
+            <mat-label>User Email</mat-label>
+            <input matInput required formControlName="userEmail">
+            <mat-error *ngIf="logInForm.get('userEmail')?.hasError('required')">
+              User Email is required
+            </mat-error>
+            <mat-error *ngIf="logInForm.get('userEmail')?.hasError('pattern')">
+              Enter a valid email. Email should not start with a number and should not have numbers after "&#64;".
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>User ID</mat-label>
-          <input matInput required formControlName="userId">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-error *ngIf="logInForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="logInForm.get('password')?.hasError('pattern')">
+              Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" required>
-        </mat-form-field>
+          <div class="actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="logInForm.invalid">Login</button>
+            <button mat-raised-button color="accent" routerLink="/register">Register</button>
+          </div>
+        </form>
 
-        <button mat-raised-button color="primary" type="submit">Login</button>
-
-      </form>
-      <div >
-        <p>Not registered yet? <a routerLink="/register">Register</a></p>
-        <p><a routerLink="/login">Home</a></p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

@@ -8,7 +8,6 @@
       <a mat-list-item href="/home" (click)="drawer.toggle()">Home</a>
       <a mat-list-item href="/favorite-movies" (click)="drawer.toggle()">Favorite Movies</a>
       <a mat-list-item href="/recommended-movies">Recommended Movies</a>
-      <a mat-list-item href="/movies">Movies</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -44,10 +43,10 @@
             <mat-icon>search</mat-icon>
           </button>
         </div>
-        
+
 
         <span class="spacer"></span>
-        
+
         <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
           <mat-icon>logout</mat-icon>
         </button>

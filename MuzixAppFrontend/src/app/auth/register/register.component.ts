@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { RouterService } from '../../core/services/router.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,36 +7,42 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  userId: string = '';
-  userName: string = '';
-  password: string = '';
-  userEmail: string = '';
-  imageUrl: string = '';
+  registerForm: FormGroup;
+  private emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z]+\.[a-zA-Z]{2,4}$/;
+  private passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  private userIdPattern = /^[a-zA-Z0-9]+$/; // Alphanumeric only
+  private userNamePattern = /^[a-zA-Z\s]+$/; // Alphabetic and spaces only
 
-  constructor(private authService: AuthService, private routerService: RouterService,
-    private snackBar: MatSnackBar,
-
-  ) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private routerService: RouterService,
+    private snackBar: MatSnackBar
+  ) {
+    this.registerForm = this.fb.group({
+      userId: ['', [Validators.required, Validators.pattern(this.userIdPattern)]],
+      userName: ['', [Validators.required, Validators.pattern(this.userNamePattern)]],
+      password: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
+      userEmail: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
+      imageUrl: ['']
+    });
+  }
 
   onRegister() {
-    const user = {
-      userId: this.userId,
-      userName: this.userName,
-      password: this.password,
-      userEmail: this.userEmail,
-      imageUrl: this.imageUrl,
-      movieList: []
-    };
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    const user = this.registerForm.value;
     this.authService.register(user).subscribe({
       next: (data: any) => {
         this.snackBar.open('Registration successful !!', 'success', {
           duration: 5000,
           panelClass: ['mat-toolbar', 'mat-primary']
         });
-        console.log(data);
         this.routerService.toLogin(); // Adjust the route as needed
       },
       error: (error: any) => {
@@ -47,39 +54,6 @@ export class RegisterComponent {
       }
     });
 
-
+    this.registerForm.reset();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- /*this.authService.register(user).subscribe(
-      response => {
-        alert('Registration successful');
-        this.routerService.toDashboard();
-      },
-      error => {
-        alert('Registration failed');
-        console.error(error);
-      }
-    );*/

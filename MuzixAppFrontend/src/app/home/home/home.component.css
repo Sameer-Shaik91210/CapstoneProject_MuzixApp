@@ -1,39 +1,93 @@
+
 .hero-section {
-    background-size: cover;
-    background-position: center;
-    padding: 60px 20px;
-    color: white;
-    text-align: center;
+  background-size: cover;
+  background-position: center;
+  padding: 60px 20px;
+  color: white;
+  text-align: center;
+}
 
-  }
-  
-  .hero-content {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .hero-content h1,p{
-    font-size: 40px;
-    font-family: 'Times New Roman', Times, serif;
-    background-color: #673ab7;
-    padding: 10px;
-    text-align: left;
-    border-radius: 10px;
-    opacity: 0.8;
-  }
-  .hero-content p{
-   font-size: 20px;
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
-  }
-  .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-  }
-  
-  .search-box {
-    width: 300px;
-    margin-right: 10px;
-  }
-  
+.hero-content h1,p{
+  font-size: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgba(103, 58, 183, 0.87);
+  padding: 10px;
+  text-align: left;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+.hero-content p{
+ font-size: 20px;
+
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.search-box {
+  width: 300px;
+  margin-right: 10px;
+}
+.movies-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+.movies-grid {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.movie-tile {
+  flex: 0 0 auto;
+  width: 200px; /* Adjust the width as per your requirement */
+  margin-right: 10px;
+}
+
+.movie-card {
+  width: 100%;
+}
+
+mat-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+mat-card-content {
+  padding: 10px;
+}
+
+mat-card h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+mat-card p {
+  font-size: 14px;
+  margin: 0;
+  max-height: 50px; /* Adjust the height to limit the text */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: black;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.favorite-btn mat-icon {
+  font-size: 24px;
+  color: red;
+}

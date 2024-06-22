@@ -21,13 +21,7 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post<any>(this.registerUrl, user);
   }
-  getMovies(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}movies`);
-  }
 
-  getFavoriteMovies(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}favorite-movies`);
-  }
   saveToken(token: any) {
     console.log("data",token)
     // console.log(token?.token,"token")

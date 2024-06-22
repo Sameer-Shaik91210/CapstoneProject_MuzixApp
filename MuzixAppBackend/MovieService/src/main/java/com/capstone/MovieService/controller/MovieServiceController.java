@@ -36,10 +36,10 @@ public class MovieServiceController {
     public ResponseEntity<?> registerUser(@RequestBody User user) throws UserAlreadyExistsException {
         try {
             responseEntity = new ResponseEntity<User>(movieService.registerUser(user), HttpStatus.CREATED);
-        }
-        catch(UserAlreadyExistsException e)
-        {
-            throw new UserAlreadyExistsException();
+        } catch (UserAlreadyExistsException e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            responseEntity = new ResponseEntity<String>("An error occurred while registering the user.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
@@ -47,34 +47,34 @@ public class MovieServiceController {
     //save favourite movie
 
     @PostMapping("user/movie")
-    public ResponseEntity<?> saveFavouriteMovie(@RequestBody FavouriteMovie movie, HttpServletRequest request)
-            throws UserNotFoundException, MovieAlreadyExistsException {
+    public ResponseEntity<?> saveFavouriteMovie(@RequestBody FavouriteMovie movie, HttpServletRequest request) throws UserNotFoundException, MovieAlreadyExistsException {
+
         try {
             Claims claims = (Claims) request.getAttribute("claims");
-            String userId = claims.getSubject();
-            responseEntity = new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie, userId), HttpStatus.OK);
-        }
-        catch (UserNotFoundException | MovieAlreadyExistsException e) {
-            throw new MovieAlreadyExistsException();
+            String userEmail = claims.getSubject();
+            //responseEntity = new ResponseEntity<User>(movieService.saveUserFavouriteMovieToTheMovieList(movie, userEmail), HttpStatus.OK);
+            User updatedUser = movieService.saveUserFavouriteMovieToTheMovieList(movie, userEmail);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (UserNotFoundException | MovieAlreadyExistsException e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<String>("An error occurred while saving the favourite movie.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
 
     //delete a movie from user's favourite movie list
 
-    @DeleteMapping("user/movie/{movieId}")
-    public ResponseEntity<?> deleteAMovieFromUserFavouriteMovieList(@PathVariable String movieId,HttpServletRequest request) throws UserNotFoundException, MovieNotFoundEXception {
+    @DeleteMapping("user/movie/{id}")
+    public ResponseEntity<?> deleteAMovieFromUserFavouriteMovieList(@PathVariable int id,HttpServletRequest request) throws UserNotFoundException, MovieNotFoundEXception {
         try {
             Claims claims = (Claims) request.getAttribute("claims");
-            String userId = claims.getSubject();
-            responseEntity = new ResponseEntity<User>(movieService.deleteAMovieFromUserFavouriteMovieList(movieId, userId), HttpStatus.OK);
-        }
-        catch (UserNotFoundException | MovieNotFoundEXception e) {
-            throw new MovieNotFoundEXception();
+            String userEmail = claims.getSubject();
+            responseEntity = new ResponseEntity<User>(movieService.deleteAMovieFromUserFavouriteMovieList(id, userEmail), HttpStatus.OK);
+        } catch (UserNotFoundException | MovieNotFoundEXception e) {
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<String>("An error occurred while deleting the movie.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
@@ -85,12 +85,11 @@ public class MovieServiceController {
     public ResponseEntity<?> getAllFavouriteMovies(HttpServletRequest request) throws Exception {
         try {
             Claims claims = (Claims) request.getAttribute("claims");
-            String userId = claims.getSubject();
-            return new ResponseEntity<List<FavouriteMovie>>(movieService.getAllFavouriteMoviesOfUser(userId), HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+            String userEmail = claims.getSubject();
+            responseEntity = new ResponseEntity<List<FavouriteMovie>>(movieService.getAllFavouriteMoviesOfUser(userEmail), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<String>("An error occurred while retrieving the favourite movies.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return responseEntity;
     }
 }

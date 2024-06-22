@@ -10,13 +10,41 @@ import { TokenService } from './token.service';
 export class MovieService {
   private tmdbUrl = 'https://api.themoviedb.org/3';
   private apiKey = 'e5c949c7ba7f40e7bb9d1678655c4957';
-  apiUrl: string = "http://localhost:9000/api/v2/";
-  private localStorageKey = 'favouriteMovies';
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  private apiUrl = 'http://localhost:9000/api/v2/';
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   private createHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
+  getFavouriteMovies(): Observable<any[]> {
+    const headers = this.createHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}user/movies`, { headers });
+  }
+
+  saveFavouriteMovie(movie: any): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
+  }
+
+  removeFavouriteMovie(movieId: number): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.delete<any>(`${this.apiUrl}user/movie/${movieId}`, { headers });
+  }
+
+  getAllMovies(): Observable<any> {
+    return this.http.get<any>(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`);
+  }
+
+  getMovieDetails(movieId: number): Observable<any> {
+    return this.http.get<any>(`${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`);
+  }
+
+
+  addFavouriteMovie(movie: any): Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
   }
 
   getFavouriteMovie(): Observable<any> {
@@ -24,22 +52,12 @@ export class MovieService {
     return this.http.get<any>(`${this.apiUrl}user/movies`, { headers });
   }
 
-  saveFavouriteMovie(movie: any): Observable<any> {
-    const headers = this.createHeaders();
-    return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
-  }
   //get Random Movies
   getRandomMovies():Observable<any>{
     return this.http.get(
       `${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`
     );
   }
-
-
-  getMovieDetails(movieId: number): Observable<any> {
-    return this.http.get(`${this.tmdbUrl}/movie/${movieId}?api_key=${this.apiKey}`);
-  }
-
 
   getMovieVideos(movieId: number): Observable<any> {
     return this.http.get(
@@ -65,64 +83,19 @@ export class MovieService {
     );
   }
 
-  getFavouriteMovies(): Observable<any> {
-    return this.http.get(`${this.apiUrl+"user/movies"}/favourites`);
-  }
 
 
 
-  addFavouriteMovie(movie: any): Observable<any> {
-    console.log("Successfully added to user's favourites list");
-    
-    // Add or update isFavourite property
-    movie.isFavourite = true;
-    
-    // Update local storage
-    let favouriteMovies = this.getFavouriteMoviesFromLocalStorage();
-    const existingMovieIndex = favouriteMovies.findIndex((m: any) => m.id === movie.id);
-
-    if (existingMovieIndex === -1) {
-      // Movie not in favourites, add it
-      favouriteMovies.push(movie);
-    } else {
-      // Movie already in favourites, update it
-      favouriteMovies[existingMovieIndex] = movie;
-    }
-
-    this.setFavouriteMoviesToLocalStorage(favouriteMovies);
-
-    console.log("After sucessful addition of movie",this.getFavouriteMoviesFromLocalStorage())
-    
-    return this.http.post(`${this.apiUrl}/favourites`, movie);
-  }
-
-  removeFavouriteMovie(movieId: number | undefined): Observable<any> {
-    console.log("Successfully removed from user's favourites list");
-
-    // Update local storage
-    let favouriteMovies = this.getFavouriteMoviesFromLocalStorage();
-    const movieIndex = favouriteMovies.findIndex((movie: any) => movie.id === movieId);
-
-    if (movieIndex !== -1) {
-      // Set isFavourite to false
-      favouriteMovies[movieIndex].isFavourite = false;
-      this.setFavouriteMoviesToLocalStorage(favouriteMovies);
-    }
-
-    return this.http.delete(`${this.apiUrl}/favourites/${movieId}`);
-  }
-
-
-  public getFavouriteMoviesFromLocalStorage(): any[] {
-    const favouriteMovies = localStorage.getItem(this.localStorageKey);
-    return favouriteMovies ? JSON.parse(favouriteMovies) : [];
-  }
+  // public getFavouriteMoviesFromLocalStorage(): any[] {
+  //   const favouriteMovies = localStorage.getItem(this.localStorageKey);
+  //   return favouriteMovies ? JSON.parse(favouriteMovies) : [];
+  // }
 
 
 
-  public setFavouriteMoviesToLocalStorage(favouriteMovies: any[]): void {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(favouriteMovies));
-  }
+  // public setFavouriteMoviesToLocalStorage(favouriteMovies: any[]): void {
+  //   localStorage.setItem(this.localStorageKey, JSON.stringify(favouriteMovies));
+  // }
 
 
 
@@ -132,9 +105,4 @@ export class MovieService {
     );
   }
   // search/movie?query=Tom&include_adult=false&language=en-US&page=1%27&api_key=
-
-  
-  
-
-
 }
