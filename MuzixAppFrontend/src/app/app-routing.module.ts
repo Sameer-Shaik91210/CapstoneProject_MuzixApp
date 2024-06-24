@@ -11,6 +11,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { authguardGuard } from './core/guards/authguard.guard';
 import { CanDeactivateGuard } from './core/guards/can-deactivate.service';
+import { SearchComponent } from './search/search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'favorite-movies', component: FavouritesComponent },
       { path: 'recommended-movies', component: RecommendedComponent },
       { path: 'movie/:id', component: PlayComponent },
+      {path:'search', component:SearchComponent}
     ],
   },
   { path: '**', component: PageNotFoundComponent },

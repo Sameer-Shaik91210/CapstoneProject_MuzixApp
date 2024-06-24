@@ -5,6 +5,7 @@ import { MovieService } from '../../core/services/movie.service';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../core/services/auth.service';
+import { FavoriteService } from '../../home/FavoriteService.service';
 
 
 @Component({
@@ -21,7 +22,6 @@ export class PlayComponent implements OnInit {
   cast: any[] = [];
   recommendedMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500';
-  isFavorite: boolean = false; // New property to track favorite status
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   movies: any[] = [];
@@ -33,25 +33,28 @@ export class PlayComponent implements OnInit {
     private movieService: MovieService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar, // Inject MatSnackBar service
-    private authService: AuthService
+    private authService: AuthService,
+    private favoriteService: FavoriteService,
+
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      const isFavouriteParam=params.get('isFavorite');
-      console.log("inside paramMap ",isFavouriteParam);
+      
       if (id) {
         this.movieId = +id;
         this.loadMovieData();
-        // this.loadFavoriteMovies();
-
       } else {
         console.error('Movie ID is null');
       }
-    }
-    )
+    });
+
+    this.favoriteService.getFavoriteMovies().subscribe(favorites => {
+      this.favoriteMovies = favorites;
+    });
   }
+  
   loadMovies() {
     this.movieService.getAllMovies().subscribe({
       next: (data: any[]) => {
@@ -77,10 +80,7 @@ export class PlayComponent implements OnInit {
       this.movieService.getMovieDetails(this.movieId).subscribe(
         (response) => {
           this.movieDetails = response;
-          console.log("In fetch movies method",this.isFavorite);
-          this.movieDetails.isFavorite=this.isFavorite;
           console.log("fetchedMovieDetails",this.movieDetails);
-          this.checkFavoriteStatus(); // Check the favorite status when details are fetched
         },
         (error) => {
           console.error('Error fetching movie details:', error);
@@ -152,49 +152,42 @@ export class PlayComponent implements OnInit {
   }
 
   goToMovie(movieId: number): void {
-    this.isFavorite = false;
     this.router.navigate(['/movie', movieId]);
   }
 
-  // New methods for handling favorite status
 
 
-  toggleFavorite(): void {
-    if (this.isFavorite) {
-      this.movieService.removeFavouriteMovie(this.movieDetails.id).subscribe(() => {
-        this.isFavorite = false;
-        this.showFavoriteSnackBar();
-      });
-    } else {
-      this.movieService.saveFavouriteMovie(this.movieDetails).subscribe((newFavorite) => {
-        this.isFavorite = true;
-        this.showFavoriteSnackBar();
-      });
-    }
-  }
-
-  showFavoriteSnackBar(): void {
-    const message = this.isFavorite ? 'Marked as favorite' : 'Unmarked as favorite';
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      panelClass: ['snackbar-primary']
-    });
-  }
-
-  checkFavoriteStatus(): void {
-    if (this.movieDetails) {
-      this.isFavorite = this.favoriteMovies.some(fav => fav.id === this.movieDetails.id);
-    }
-  }
   loadFavoriteMovies(): void {
     this.movieService.getFavouriteMovies().subscribe({
       next: (data: any[]) => {
         this.favoriteMovies = data;
-        this.checkFavoriteStatus(); // Check the favorite status when favorite movies are loaded
       },
       error: (error: any) => {
         console.error('Error fetching favorite movies:', error);
       }
     });
+  }
+  
+
+  isFavorite(movie: any): boolean {
+    return this.favoriteMovies.some(fav => fav.id === movie.id);
+  }
+
+  toggleFavorite(movie: any): void {
+    if (this.isFavorite(movie)) {
+      console.log("Inside toogle ,removing from favorite list --",this.isFavorite(movie),"Movie id ",movie.id);
+      this.favoriteService.removeFavoriteMovie(movie.id);
+      this.snackBar.open('Movie removed from favorites!', 'Close', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-primary']
+      });
+    } else {
+      console.log("adding to favorite list ",this.isFavorite(movie),"movie ",movie);
+      this.favoriteService.addFavoriteMovie(movie);
+      this.snackBar.open('Movie added to favorites!', 'Close', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-primary']
+      });
+    }
   }
 }

@@ -1,8 +1,6 @@
 /* src/app/register/register.component.css */
 .register-background {
-  background-image: url('https://woorise.com/wp-content/uploads/2021/03/Online-event-registration.png');
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(to bottom, #673ab7, white);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -14,6 +12,18 @@
   width: 100%;
 }
 
+h1{
+  color: white;
+  font-size: 30px;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #673ab7;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  opacity: 0.8;
+  letter-spacing: 2px;
+}
+
 mat-card {
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
@@ -23,9 +33,11 @@ mat-card-title {
   text-align: center;
 }
 
-.mat-form-field {
-  width: 100%;
+mat-form-field.full-width {
+  width: 100%; /* This makes the form fields take full width of the container */
+  margin-bottom: 20px;
 }
+
 
 .actions {
   display: flex;

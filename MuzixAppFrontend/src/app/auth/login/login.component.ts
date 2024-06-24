@@ -47,13 +47,14 @@ export class LoginComponent {
         console.log("Email: ", email);
         console.log("Token: ", token);
 
-
+        //save token
+        this.authService.saveToken(token);
 
         // Fetch user profile
         this.authService.getUserProfileFromAPI(email).subscribe({
           next: (profile: string) => {
             console.log("User Profile: ", profile);
-            this.routerService.toHome(); // Adjust navigation as needed
+            this.authService.setProfile(profile);
           },
           error: (error: any) => {
             console.error('Failed to fetch user profile', error);
@@ -63,11 +64,13 @@ export class LoginComponent {
             });
           }
         });
-
+         
+        
         this.snackBar.open('Login successful !!', 'success', {
           duration: 5000,
           panelClass: ['mat-toolbar', 'mat-primary']
         });
+        this.router.navigate(['home']);
 
         this.logInForm.reset();
       },

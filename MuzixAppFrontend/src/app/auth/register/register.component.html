@@ -2,18 +2,23 @@
 <div class="register-background">
   <div class="register-container">
     <mat-card>
-      <mat-card-title>Register</mat-card-title>
+      <h1>Register with Muzix</h1>
       <mat-card-content>
+
+        <!-- Form -->
         <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-          <mat-form-field>
+
+          <!-- User ID -->
+          <mat-form-field class="full-width">
             <mat-label>User ID</mat-label>
             <input matInput formControlName="userId" required>
             <mat-error *ngIf="registerForm.get('userId')?.hasError('required')">
               User ID is required
             </mat-error>
           </mat-form-field>
-
-          <mat-form-field>
+          
+          <!-- User Name -->
+          <mat-form-field class="full-width">
             <mat-label>User Name</mat-label>
             <input matInput formControlName="userName" required>
             <mat-error *ngIf="registerForm.get('userName')?.hasError('required')">
@@ -21,7 +26,8 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <!-- Password  -->
+          <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" required>
             <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
@@ -32,7 +38,8 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <!-- Email -->
+          <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
             <input matInput formControlName="userEmail" required>
             <mat-error *ngIf="registerForm.get('userEmail')?.hasError('required')">
@@ -43,14 +50,15 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <!-- Image URL -->
+          <mat-form-field class="full-width">
             <mat-label>Image URL</mat-label>
             <input matInput formControlName="imageUrl">
           </mat-form-field>
 
           <div class="actions">
             <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
-            <button mat-raised-button color="accent" routerLink="/login">Login</button>
+            <button mat-raised-button color="primary" routerLink="/login">Login</button>
           </div>
         </form>
       </mat-card-content>

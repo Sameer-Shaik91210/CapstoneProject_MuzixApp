@@ -10,7 +10,7 @@ import { AuthService } from '../core/services/auth.service';
   templateUrl: './header-sidenav.component.html',
   styleUrls: ['./header-sidenav.component.css']
 })
-export class HeaderSidenavComponent implements OnInit{
+export class HeaderSidenavComponent implements OnInit {
   searchQuery: string = '';
 
   private breakpointObserver = inject(BreakpointObserver);
@@ -20,27 +20,33 @@ export class HeaderSidenavComponent implements OnInit{
       shareReplay()
     );
   isLoggedIn: boolean = true;
-  currentUserProfile:any='';
+  currentUserProfile: string = '';
 
-  constructor(private authService:AuthService, private router: Router) {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.currentUserProfile=this.authService.getCurrentUserProfile();
-    console.log("The current user profile is :",this.authService.getCurrentUserProfile());
-
+    this.currentUserProfile = <string>this.authService.getProfile();
+    console.log("The current user profile is :", this.currentUserProfile);
   }
 
   navigateToHome() {
     this.router.navigate(['/home']);
   }
+  navigateToProfile() {
+    this.router.navigate(['/profile']); // Adjust the route as necessary
+  }
+  
 
   navigateToSearch() {
     if (!this.searchQuery.trim()) {
       return;
     }
     this.router.navigate(['/search'], { queryParams: { query: this.searchQuery } });
+  }
+
+  navigateToFavorites() {
+    this.router.navigate(['/favorite-movies'], { queryParams: { isFromNavbar: true } });
   }
 
   logout() {

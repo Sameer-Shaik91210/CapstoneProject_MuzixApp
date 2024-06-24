@@ -11,7 +11,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:9000/api/v1/';
   private registerUrl = 'http://localhost:9000/api/v2/register';
 
-  private currentUserProfile:any='';
+  private currentUserProfile:string='';
 
   // private loggedIn=false;
 
@@ -39,6 +39,12 @@ export class AuthService {
     console.log('data', token);
     localStorage.setItem('jwtToken', token);
   }
+  setProfile(profile:string){
+    localStorage.setItem('profile',profile);
+  }
+  getProfile():string | null{
+    return localStorage.getItem('profile');
+  }
 
   getToken(): string | null {
     return localStorage.getItem('jwtToken');
@@ -50,6 +56,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('profile');
     this.routerService.toLogin();
   }
 }

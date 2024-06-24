@@ -9,13 +9,21 @@
       </button>
     </div>
 
-    <button mat-button class="favorite-button" routerLink="/favorite-movies">Favorites</button>
+    <button mat-button class="favorite-button" (click)="navigateToFavorites()">Favorites</button>
 
     <span class="spacer"></span>
 
-    <button *ngIf="isLoggedIn" mat-icon-button (click)="logout()">
-      <mat-icon>logout</mat-icon>
-    </button>
+    <ng-container *ngIf="isLoggedIn">
+      <button mat-icon-button class="profile-button" >
+        <img *ngIf="currentUserProfile; else noProfileIcon" [src]="currentUserProfile" alt="Profile" class="profile-image">
+        <ng-template #noProfileIcon>
+          <mat-icon>account_circle</mat-icon>
+        </ng-template>
+      </button>
+      <button mat-icon-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

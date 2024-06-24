@@ -1,0 +1,39 @@
+/* page-not-found.component.css */
+.page-not-found {
+    text-align: center;
+    padding: 50px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .page-not-found h1 {
+    font-size: 72px;
+    margin: 0;
+    color: #ff0000; /* Red color for error code */
+  }
+  
+  .page-not-found h2 {
+    font-size: 36px;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .page-not-found p {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .page-not-found a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .page-not-found a:hover {
+    background-color: #0056b3;
+  }
+  

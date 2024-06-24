@@ -7,28 +7,26 @@
   width: 400px;
 } */
 .login-background {
-  background-image: url('https://wallpapercave.com/wp/34CZFYH.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, #673ab7, white);
 }
 h1{
   color: white;
-  font-size: 40px;
+  font-size: 35px;
   font-family: 'Times New Roman', Times, serif;
   background-color: #673ab7;
   padding: 10px;
   text-align: center;
   border-radius: 10px;
   opacity: 0.8;
+  letter-spacing: 2px;
 }
 .login-container {
-  max-width: 400px;
   width: 100%;
-  height: auto;
+  max-width: 400px; /* Adjust as needed */
 }
 
 mat-card {
@@ -40,8 +38,9 @@ mat-card-title {
   text-align: center;
 }
 
-.mat-form-field {
-  width: 100%;
+mat-form-field.full-width {
+  width: 100%; /* This makes the form fields take full width of the container */
+  margin-bottom: 20px;
 }
 
 .actions {

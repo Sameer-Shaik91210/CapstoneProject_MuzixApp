@@ -1,67 +1,61 @@
-/*.movies-container {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px;
-  }
 
-  .movies-grid {
-    display: flex;
-    flex-wrap: nowrap;
-  }
 
-  .movie-tile {
-    flex: 0 0 auto;
-    width: 200px;
-    margin-right: 10px;
-  }
+.no-favorites {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px; /* Adjust spacing as needed */
+  height: 300px;
+}
 
-  .movie-card {
-    width: 100%;
-  }
 
-  mat-card img {
-    max-width: 100%;
-    height: auto;
-  }
+.section-title {
+  background-color: #673ab7;
+  color: white;
+  font-family: 'Arial', sans-serif; /* Replace with your preferred font family */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  margin-top: 10px;
+  text-align: center;
+  letter-spacing: 2px;
 
-  mat-card-content {
-    padding: 10px;
-  }
+}
 
-  mat-card h3 {
-    font-size: 16px;
-    margin: 0;
-  }
 
-  mat-card p {
-    font-size: 14px;
-    margin: 0;
-    max-height: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }*/
-/* favourites.component.css */
 .movies-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #673ab7 #fff; /* thumb-color track-color */
 }
 
 .movies-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 20px; /* Adjust gap between movie tiles */
+  justify-content: flex-start; /* Start from the left */
 }
 
 .movie-tile {
-  width: 200px;
+  flex: 0 0 auto;
+  width: 200px; /* Adjust the width as per your requirement */
+  margin-bottom: 20px; /* Adjust spacing between rows */
+  transition: transform 0.3s ease;
+}
+
+.movie-tile:hover {
+  transform: scale(1.05);
 }
 
 .movie-card {
+  width: 100%;
+  border-radius: 15px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+
 }
 
 .actions {
@@ -69,24 +63,27 @@
   justify-content: space-between;
   padding: 10px;
 }
+
 mat-card img {
   max-width: 100%;
   height: auto;
 }
 
 mat-card-content {
+  flex: 1; /* Expand content to fill movie-card */
   padding: 10px;
 }
-
 mat-card h3 {
-  font-size: 16px;
+  font-size: 20px;
   margin: 0;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 500;
 }
 
 mat-card p {
   font-size: 14px;
   margin: 0;
-  max-height: 50px;
+  max-height: 50px; /* Adjust the height to limit the text */
   overflow: hidden;
   text-overflow: ellipsis;
 }

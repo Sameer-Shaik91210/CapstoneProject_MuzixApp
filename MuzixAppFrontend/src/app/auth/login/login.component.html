@@ -2,11 +2,13 @@
 <div class="login-background">
   <div class="login-container">
     <mat-card>
-      <h1>Muzix</h1>
-      <mat-card-title>Login</mat-card-title>
+      <h1>Login to Muzix</h1>
       <mat-card-content>
+        <!-- Form -->
         <form [formGroup]="logInForm" (ngSubmit)="onLogin()">
-          <mat-form-field>
+
+          <!-- User Email Field -->
+          <mat-form-field class="full-width">
             <mat-label>User Email</mat-label>
             <input matInput required formControlName="userEmail">
             <mat-error *ngIf="logInForm.get('userEmail')?.hasError('required')">
@@ -17,7 +19,9 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+
+          <!-- Password -->
+          <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" required>
             <mat-error *ngIf="logInForm.get('password')?.hasError('required')">
@@ -27,13 +31,13 @@
               Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.
             </mat-error>
           </mat-form-field>
-
+    
+          <!-- Login and Register buttons -->
           <div class="actions">
             <button mat-raised-button color="primary" type="submit" [disabled]="logInForm.invalid">Login</button>
-            <button mat-raised-button color="accent" routerLink="/register">Register</button>
+            <button mat-raised-button color="primary" routerLink="/register">Register</button>
           </div>
         </form>
-
       </mat-card-content>
     </mat-card>
   </div>

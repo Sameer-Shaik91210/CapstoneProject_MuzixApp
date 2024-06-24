@@ -1,10 +1,14 @@
-
+*{
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 1.5px;
+}
 .hero-section {
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
   color: white;
   text-align: center;
+  object-fit: cover;
 }
 
 .hero-content {
@@ -19,7 +23,8 @@
   padding: 10px;
   text-align: left;
   border-radius: 10px;
-  opacity: 0.8;
+  opacity: 0.95;
+  letter-spacing: 2px;
 }
 .hero-content p{
  font-size: 20px;

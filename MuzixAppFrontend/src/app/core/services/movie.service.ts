@@ -47,11 +47,6 @@ export class MovieService {
     return this.http.post<any>(`${this.apiUrl}user/movie`, movie, { headers });
   }
 
-  getFavouriteMovie(): Observable<any> {
-    const headers = this.createHeaders();
-    return this.http.get<any>(`${this.apiUrl}user/movies`, { headers });
-  }
-
   //get Random Movies
   getRandomMovies():Observable<any>{
     return this.http.get(

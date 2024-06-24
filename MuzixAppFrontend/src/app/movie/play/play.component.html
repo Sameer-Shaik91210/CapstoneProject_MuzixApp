@@ -1,40 +1,69 @@
 <div class="play-container">
-  <div class="movie-player" *ngIf="videoUrl">
+  <div class="movie-player" *ngIf="videoUrl; else noVideo">
     <iframe [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
   </div>
+  <ng-template #noVideo>
+    <div class="no-video-message">
+      <p>Sorry! Video not available.</p>
+    </div>
+  </ng-template>
 
   <div class="movie-details" *ngIf="movieDetails">
     <div class="details-header">
       <h2>{{ movieDetails.title }}</h2>
-      <button class="favorite-btn" (click)="toggleFavorite()">
+      <!-- <button class="favorite-btn" (click)="toggleFavorite()">
         <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
-      </button>
+      </button> -->
     </div>
     <p>{{ movieDetails.overview }}</p>
   </div>
 
   <div class="movie-cast">
-    <h3>Cast</h3>
-    <div class="cast-container">
+    <h3 class="section-title">Crew</h3>
+    <div class="cast-container" *ngIf="cast.length > 0; else noCast">
       <div *ngFor="let member of cast" class="cast-member">
         <img [src]="imgPrefix + member.profile_path" alt="{{ member.name }}">
         <b>{{ member.name }}</b>
         <p>{{ member.job }}</p>
       </div>
     </div>
+    <ng-template #noCast>
+      <div class="no-cast-message">
+        <p>No crew information available.</p>
+      </div>
+    </ng-template>
   </div>
 
   <div class="recommended-movies">
-    <h3>Recommended Movies</h3>
-    <div class="recommended-container">
+    <h3 class="section-title">Recommended Movies</h3>
+    <div class="recommended-container" *ngIf="recommendedMovies.length > 0; else noRecommended">
+     
       <div *ngFor="let movie of recommendedMovies" class="recommended-movie">
-        <mat-card class="movie-card" (click)="goToMovie(movie.id)">
+       
+        <mat-card class="movie-card" >
+
           <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+          
           <mat-card-content>
             <h3>{{ movie.title }}</h3>
           </mat-card-content>
+
+          <div class="actions">
+            <button mat-icon-button (click)="toggleFavorite(movie)">
+              <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
+            </button>
+            <button mat-button (click)="goToMovie(movie.id)">View</button>
+          </div>
+          
         </mat-card>
+
       </div>
+
     </div>
+    <ng-template #noRecommended>
+      <div class="no-recommended-message">
+        <p>No recommended movies available.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

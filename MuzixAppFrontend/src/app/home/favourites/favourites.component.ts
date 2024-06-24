@@ -1,45 +1,48 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../core/services/movie.service';
-import { Route, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
-  styleUrl: './favourites.component.css'
+  styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit {
   favoriteMovies: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500/';
+  isFromNavbar: boolean = false;
 
-  constructor(private movieService: MovieService, private router: Router,
-    private snackBar:MatSnackBar
+  constructor(
+    private movieService: MovieService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-  this.movieService.getFavouriteMovies().subscribe((data: any) => {
-    this.favoriteMovies = data || [];
-  });
-}
+    this.route.queryParams.subscribe(params => {
+      this.isFromNavbar = params['isFromNavbar'] === 'true';
+      console.log('Navigated from Navbar:', this.isFromNavbar);
+    });
 
-  /*
-  ngOnInit(): void {
     this.loadFavoriteMovies();
-  }*/
+  }
 
   loadFavoriteMovies(): void {
     this.movieService.getFavouriteMovies().subscribe((data: any) => {
-      this.favoriteMovies = data;
+      console.log("Data from mongo", data);
+      this.favoriteMovies = data || [];
     });
   }
 
   goToMovie(movieId: number): void {
     this.router.navigate(['/movie', movieId]);
   }
+
   isFavorite(movie: any): boolean {
     return this.favoriteMovies && this.favoriteMovies.some(fav => fav.id === movie.id);
   }
-
 
   removeFavorite(movie: any): void {
     if (this.isFavorite(movie)) {
@@ -61,13 +64,4 @@ export class FavouritesComponent implements OnInit {
       });
     }
   }
-
-
- /* removeFavorite(movie: any): void {
-    if (this.favoriteMovies && this.isFavorite(movie)) {
-      this.movieService.removeFavouriteMovie(movie.id).subscribe(() => {
-        this.favoriteMovies = this.favoriteMovies.filter(fav => fav.id !== movie.id);
-      });
-    }
-  }*/
 }
