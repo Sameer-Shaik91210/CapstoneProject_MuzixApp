@@ -9,8 +9,8 @@
         <img mat-card-image *ngIf="movie.poster_path" [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
         <mat-card-content>
           <h3>{{ movie.title }}</h3><br/>
-          <p>Released On: {{ movie.release_date }}</p>
         </mat-card-content>
+        <p>  Release Year: {{ movie.release_date | date: 'yyyy' }}</p>
         <div class="actions">
           <button mat-icon-button (click)="removeFavorite(movie)">
             <mat-icon color="warn">favorite</mat-icon>

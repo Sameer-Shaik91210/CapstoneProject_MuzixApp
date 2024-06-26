@@ -3,6 +3,8 @@
     text-align: center;
     padding: 50px;
     font-family: Arial, sans-serif;
+     background: linear-gradient(to bottom, #a982eb, white);
+
   }
   
   .page-not-found h1 {
@@ -28,12 +30,13 @@
     padding: 10px 20px;
     font-size: 18px;
     color: #fff;
-    background-color: #007bff;
+    background-color: #673ab7;
     text-decoration: none;
     border-radius: 5px;
   }
   
   .page-not-found a:hover {
-    background-color: #0056b3;
+    background-color: #864dea;
+    transition: all 0.5s ease-in-out;
   }
   

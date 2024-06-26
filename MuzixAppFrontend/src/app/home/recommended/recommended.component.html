@@ -6,8 +6,8 @@
         <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
         <mat-card-content>
           <h3>{{ movie.title }}</h3>
-          <p>Released On: {{ movie.release_date }}</p>
         </mat-card-content>
+        <p> Release Year: {{ movie.release_date | date: 'yyyy' }}</p>
         <div class="actions">
           <button mat-icon-button (click)="toggleFavorite(movie)">
             <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>

@@ -1,10 +1,16 @@
 <div class="movie-container" *ngFor="let movie of searchResults">
-  <div class="movie-card" (click)="goToMovie(movie.id)">
+  <div class="movie-card" >
     <img [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}" class="movie-poster">
     <div class="movie-details">
       <h2 class="movie-title">{{ movie.title }}</h2>
       <p class="movie-overview">{{ movie.overview }}</p>
       <p class="movie-year">Release Year: {{ movie.release_date | date: 'yyyy' }}</p>
+    </div>
+    <div class="actions">
+      <button mat-icon-button (click)="toggleFavorite(movie)">
+        <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+      <button mat-button (click)="goToMovie(movie.id)">View</button>
     </div>
   </div>
 </div>

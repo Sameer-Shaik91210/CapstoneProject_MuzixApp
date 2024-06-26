@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../core/services/movie.service';
+import { FavoriteService } from '../../home/FavoriteService.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search',
@@ -11,8 +13,13 @@ export class SearchComponent implements OnInit {
   searchQuery: string = '';
   searchResults: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500/';
-
-  constructor(private route: ActivatedRoute, private movieService: MovieService,private router:Router) {}
+  favoriteMovies: any[] = [];
+ 
+  constructor( private route: ActivatedRoute, 
+    private favoriteService: FavoriteService,
+    private movieService: MovieService,
+    private snackBar: MatSnackBar,
+    private router:Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -20,6 +27,9 @@ export class SearchComponent implements OnInit {
       if (this.searchQuery) {
         this.fetchSearchResults();
       }
+    });
+    this.favoriteService.getFavoriteMovies().subscribe(favorites => {
+      this.favoriteMovies = favorites;
     });
   }
 
@@ -36,6 +46,28 @@ export class SearchComponent implements OnInit {
         );
       }
     });
+  }
+
+
+  
+  isFavorite(movie: any): boolean {
+    return this.favoriteMovies.some(fav => fav.id === movie.id);
+  }
+
+  toggleFavorite(movie: any): void {
+    if (this.isFavorite(movie)) {
+      this.favoriteService.removeFavoriteMovie(movie.id);
+      this.snackBar.open('Movie removed from favorites!', 'Close', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-primary']
+      });
+    } else {
+      this.favoriteService.addFavoriteMovie(movie);
+      this.snackBar.open('Movie added to favorites!', 'Close', {
+        duration: 3000,
+        panelClass: ['mat-toolbar', 'mat-primary']
+      });
+    }
   }
   goToMovie(movieId: number): void {
     console.log(movieId,"movieId");
