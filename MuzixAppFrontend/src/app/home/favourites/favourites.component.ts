@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../core/services/movie.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FavoriteService } from '../FavoriteService.service';
 
 @Component({
   selector: 'app-favourites',
@@ -17,7 +18,8 @@ export class FavouritesComponent implements OnInit {
     private movieService: MovieService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private favoriteService:FavoriteService
   ) {}
 
   ngOnInit(): void {
@@ -26,15 +28,17 @@ export class FavouritesComponent implements OnInit {
       console.log('Navigated from Navbar:', this.isFromNavbar);
     });
 
-    this.loadFavoriteMovies();
-  }
-
-  loadFavoriteMovies(): void {
-    this.movieService.getFavouriteMovies().subscribe((data: any) => {
-      console.log("Data from mongo", data);
-      this.favoriteMovies = data || [];
+    this.favoriteService.favoriteMovies$.subscribe(favorites => {
+      this.favoriteMovies = favorites;
     });
   }
+
+  // loadFavoriteMovies(): void {
+  //   this.movieService.getFavouriteMovies().subscribe((data: any) => {
+  //     console.log("Data from mongo", data);
+  //     this.favoriteMovies = data || [];
+  //   });
+  // }
 
   goToMovie(movieId: number): void {
     this.router.navigate(['/movie', movieId]);

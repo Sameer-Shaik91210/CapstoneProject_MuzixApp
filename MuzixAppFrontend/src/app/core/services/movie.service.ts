@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, map } from 'rxjs';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 
@@ -48,9 +48,20 @@ export class MovieService {
   }
 
   //get Random Movies
-  getRandomMovies():Observable<any>{
-    return this.http.get(
-      `${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}`
+  getRandomMovies(): Observable<any> {
+    const page1 = this.http.get(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc&page=1`);
+    const page2 = this.http.get(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc&page=2`);
+    const page3 = this.http.get(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc&page=3`);
+    const page4 = this.http.get(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc&page=4`);
+    const page5 = this.http.get(`${this.tmdbUrl}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc&page=5`);
+
+    return forkJoin([page1, page2, page3, page4,page5]).pipe(
+      map((responses: any[]) => {
+        // Combine the results from all pages into a single array
+        const allMovies = responses.reduce((acc, response) => acc.concat(response.results), []);
+        console.log("all movies :",allMovies)
+        return allMovies;
+      })
     );
   }
 

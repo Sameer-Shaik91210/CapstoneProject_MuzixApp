@@ -23,7 +23,8 @@ export class RecommendedComponent implements OnInit {
 
   ngOnInit(): void {
     this.movieService.getRandomMovies().subscribe(response => {
-      this.randomMovies = response.results;
+      this.randomMovies = response;
+      console.log("Popular Movies Results:  ",this.randomMovies);
     });
 
     this.favoriteService.getFavoriteMovies().subscribe(favorites => {
