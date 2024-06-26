@@ -9,6 +9,8 @@ import com.capstone.MovieService.exception.UserAlreadyExistsException;
 import com.capstone.MovieService.exception.UserNotFoundException;
 import com.capstone.MovieService.service.IMovieService;
 import io.jsonwebtoken.Claims;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +84,8 @@ public class MovieServiceController {
     }
 
     //retrieve all favourite movies
-
+    @Operation(summary = "fetching a Movies", description = "This will add a new Movies to app")
+    @ApiResponse(responseCode = "200", description = "Movies added successfully")
     @GetMapping("user/movies")
     public ResponseEntity<?> getAllFavouriteMovies(HttpServletRequest request) throws Exception {
         try {
