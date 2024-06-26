@@ -67,6 +67,7 @@
 mat-card img {
   max-width: 100%;
   height: auto;
+  cursor: pointer;
 }
 
 mat-card-content {
@@ -86,4 +87,15 @@ mat-card p {
   max-height: 50px; /* Adjust the height to limit the text */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.view-button{
+  background-color: #673ab7;
+  border-radius: 10px;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+.view-button:hover{
+  transform: scale(1.1);
 }

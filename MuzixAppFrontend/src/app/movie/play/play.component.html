@@ -23,8 +23,10 @@
     <div class="cast-container" *ngIf="cast.length > 0; else noCast">
       <div *ngFor="let member of cast" class="cast-member">
         <img [src]="imgPrefix + member.profile_path" alt="{{ member.name }}">
+        <div class="member">
         <b>{{ member.name }}</b>
         <p>{{ member.job }}</p>
+        </div>
       </div>
     </div>
     <ng-template #noCast>
@@ -42,18 +44,19 @@
        
         <mat-card class="movie-card" >
 
-          <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+          <img mat-card-image [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}"  (click)="goToMovie(movie.id)">
           
-          <mat-card-content>
+          <mat-card-content matTooltip={{movie.title}}>
             <h3>{{ movie.title }}</h3>
           </mat-card-content>
+          <p> Year - {{movie.release_date |  date: 'yyyy' }}</p>
           
 
           <div class="actions">
-            <button mat-icon-button (click)="toggleFavorite(movie)">
+            <button  matTooltip="Add to Favorites"  mat-icon-button (click)="toggleFavorite(movie)">
               <mat-icon color="warn">{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
             </button>
-            <button mat-button (click)="goToMovie(movie.id)">View</button>
+            <button mat-button (click)="goToMovie(movie.id)" class="view-button">View</button>
           </div>
           
         </mat-card>

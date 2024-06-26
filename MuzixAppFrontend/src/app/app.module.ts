@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
 import { SearchComponent } from './search/search/search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+
 @NgModule({
   declarations: [
     AppComponent,

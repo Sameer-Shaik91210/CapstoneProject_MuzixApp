@@ -6,16 +6,16 @@
   <div class="movies-grid">
     <div *ngFor="let movie of favoriteMovies" class="movie-tile">
       <mat-card class="movie-card"  [class.wrap-flex]="isFromNavbar">
-        <img mat-card-image *ngIf="movie.poster_path" [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}">
+        <img mat-card-image *ngIf="movie.poster_path" [src]="imgPrefix + movie.poster_path" alt="{{ movie.title }}" (click)="goToMovie(movie.id)">
         <mat-card-content>
           <h3>{{ movie.title }}</h3><br/>
         </mat-card-content>
         <p>  Release Year: {{ movie.release_date | date: 'yyyy' }}</p>
         <div class="actions">
-          <button mat-icon-button (click)="removeFavorite(movie)">
+          <button  matTooltip="Remove From Favorites"  mat-icon-button (click)="removeFavorite(movie)">
             <mat-icon color="warn">favorite</mat-icon>
           </button>
-          <button mat-button (click)="goToMovie(movie.id)">View</button>
+          <button class="view-button" mat-button (click)="goToMovie(movie.id)">View</button>
         </div>
       </mat-card>
     </div>

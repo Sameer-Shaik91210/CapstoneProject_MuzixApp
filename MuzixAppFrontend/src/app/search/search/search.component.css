@@ -20,6 +20,7 @@
     width: 150px;
     height: 225px;
     object-fit: cover;
+    cursor: pointer;
   }
   
   .movie-details {
@@ -34,6 +35,8 @@
     font-size: 24px;
     font-weight: bold;
     margin: 0;
+    cursor: pointer;
+
   }
   
   .movie-overview {
@@ -52,5 +55,16 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 10px;
+  }
+
+  .view-button{
+    background-color: #673ab7;
+    border-radius: 10px;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .view-button:hover{
+    transform: scale(1.1);
   }
   
