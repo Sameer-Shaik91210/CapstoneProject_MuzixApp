@@ -16,25 +16,13 @@
               User ID is required
             </mat-error>
           </mat-form-field>
-          
+
           <!-- User Name -->
           <mat-form-field class="full-width">
             <mat-label>User Name</mat-label>
             <input matInput formControlName="userName" required>
             <mat-error *ngIf="registerForm.get('userName')?.hasError('required')">
               User Name is required
-            </mat-error>
-          </mat-form-field>
-
-          <!-- Password  -->
-          <mat-form-field class="full-width">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" required>
-            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
-              Password is required
-            </mat-error>
-            <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
-              Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.
             </mat-error>
           </mat-form-field>
 
@@ -47,6 +35,18 @@
             </mat-error>
             <mat-error *ngIf="registerForm.get('userEmail')?.hasError('pattern')">
               Enter a valid email. Email should not start with a number and should not have numbers after "&#64;".
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password  -->
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('pattern')">
+              Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.
             </mat-error>
           </mat-form-field>
 
@@ -63,6 +63,6 @@
         </form>
       </mat-card-content>
     </mat-card>
-    
+
   </div>
 </div>

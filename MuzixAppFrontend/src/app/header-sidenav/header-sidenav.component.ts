@@ -36,13 +36,15 @@ export class HeaderSidenavComponent implements OnInit {
   navigateToProfile() {
     this.router.navigate(['/profile']); // Adjust the route as necessary
   }
-  
+
 
   navigateToSearch() {
     if (!this.searchQuery.trim()) {
       return;
     }
     this.router.navigate(['/search'], { queryParams: { query: this.searchQuery } });
+    this.searchQuery = '';
+    //window.location.reload();
   }
 
   navigateToFavorites() {

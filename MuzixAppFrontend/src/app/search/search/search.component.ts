@@ -14,8 +14,8 @@ export class SearchComponent implements OnInit {
   searchResults: any[] = [];
   imgPrefix: string = 'https://image.tmdb.org/t/p/w500/';
   favoriteMovies: any[] = [];
- 
-  constructor( private route: ActivatedRoute, 
+
+  constructor( private route: ActivatedRoute,
     private favoriteService: FavoriteService,
     private movieService: MovieService,
     private snackBar: MatSnackBar,
@@ -41,15 +41,18 @@ export class SearchComponent implements OnInit {
     this.movieService.searchMovies(this.searchQuery).subscribe({
       next: (data) => {
         console.log(data);
-        this.searchResults = data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) => 
+        this.searchResults = data.results.filter((movie: { poster_path: any; title: any; overview: any; release_date: any; }) =>
           movie.poster_path && movie.title && movie.overview && movie.release_date
         );
+        this.searchQuery = ''; 
       }
+
     });
+
   }
 
 
-  
+
   isFavorite(movie: any): boolean {
     return this.favoriteMovies.some(fav => fav.id === movie.id);
   }
